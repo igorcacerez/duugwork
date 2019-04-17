@@ -1,9 +1,16 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Igor
+ * ============================================================
+ *
+ *  Class de configuração do framework, esta classe só deve ser
+ *  alterada em ultimo caso.
+ *
+ * ============================================================
+ *
+ * Autor: Igor Cacerez
  * Date: 26/03/2019
  * Time: 17:31
+ *
  */
 
 namespace Sistema;
@@ -11,7 +18,17 @@ namespace Sistema;
 
 class Controller
 {
+    // Método construtor
+    function __construct()
+    {
+        // Start Session
+        if(OPEN_SESSION == true)
+        {
+            session_start();
+        }
+    }
 
+    // Método para exibição de páginas VIEW
     public function view($view = null, $dados = null)
     {
         // Verifica se o parametro dado é != de nulo
@@ -22,51 +39,60 @@ class Controller
 
         //Exibe a View
         include("./app/views/" . $view . ".php");
-    }
+
+    } // END >> Fun::view()
 
 
-    public function configCategoria($cat = null)
+
+
+    /**
+     * ------------------------------------------------------
+     *
+     * Métodos que facilitam o desenvolvimento de sistemas.
+     * Diversos métodos personalizados de rotinas básicas
+     * que praticamente todo siststema utiliza e necessita.
+     *
+     * ------------------------------------------------------
+     *
+     * Esses métodos são editaveis e não influencia diretamente no
+     * funcionamento do famework
+     *
+     * -------------------------------------------------------
+     */
+
+
+    // Método responsável por realizar upload de arquivos
+    public function uploadFile($arquivo = null, $caminho = null, $nome = null)
     {
-        switch ($cat) 
+        // Verifica se o nome foi adicionado
+        if($nome == null)
         {
-            case 'direito-e-seguranca':
-                $var = "Direito e Segurança";
-                break;
-
-            case 'educacao':
-                $var = "Educação";
-                break;
-
-            case 'direito-e-seguranca':
-                $var = "Direito e Segurança";
-                break;
-
-            case 'engenharia':
-                $var = "Engenharia";
-                break;
-
-            case 'saude':
-                $var = "Saúde";
-                break;
-
-            case 'design':
-                $var = "Design";
-                break;
-
-            case 'negocios':
-                $var = "Negócios";
-                break;
-
-            case 'tecnologia':
-                $var = "Tecnologia";
-                break;
-
-            case 'turismo-hospitalidade':
-                $var = "Turismo e Hospitalidade";
-                break;
+            $nome = date("Y-m-d-his");
         }
 
-        return $var;
-    }
+        // Pega a extensão
+        $ext = explode(".",basename($arquivo['name']));
+        $ext = end($ext);
 
-}
+        // Seta o nome do arquivo
+        $nome .= "." . $ext;
+
+        // Caminho
+        $caminho .= "/" . $nome;
+
+        if(move_uploaded_file($arquivo['tmp_name'], $caminho))
+        {
+            return $nome;
+        }
+        else
+        {
+            return false;
+        }
+
+    } // END >> Fun::uploadFile()
+
+
+
+
+
+} // END >> Class::Controller

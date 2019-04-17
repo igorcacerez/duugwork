@@ -1,0 +1,626 @@
+@media(max-width: 1270px)
+{
+    header .inferior .direita{display: none;}
+    header .inferior .responsivo{display: block; margin-top: 26px;}
+
+    header .superior ul.nav li#menuAluno{display: none;}
+    header .superior ul.nav li#menuFaleConosco{border-right: none;}
+
+    header .superior ul.nav li .modal_FaleConosco{width: 119px;}
+    header .superior ul.nav li .modal_FaleConosco h4{font-size: 1.1em;}
+
+    header .superior ul.nav li .modal_NosTeLigamos h3{font-size: 0.8em;}
+    header .superior ul.nav li .modal_NosTeLigamos{width: 237px;}
+
+    header .superior ul.nav li .modal_NosTeLigamos button{padding: 10px 0px;}
+
+
+    .pg-inicial .escolha
+    {   
+        left: 0px; width: 100%;
+        min-width: auto;
+    }
+
+    .pg-inicial .escolha .alinha
+    {
+        display: block; margin: 0 auto;
+        padding: 20px 0px;
+    }
+
+    .pg-inicial .escolha .alinha img 
+    {
+        display: block; margin: 0 auto;
+    }
+
+    .pg-inicial .escolha .alinha h2
+    {
+        text-align: center;
+    }
+
+    header .inferior .logo{width: 120px;}
+
+
+    header .superior .pc{display: none;}
+    header .superior .mobile{display: block;}
+}
+
+
+@media(max-width: 1080px)
+{
+    .categorias .item-categoria
+    {
+        width: calc((100% / 2) - 30px);
+        background-size: 100% auto;
+    }
+
+    .pg-cursos .item-curso .botoes button{margin-bottom: 12px;}
+    .pg-cursos .item-curso .titulo h5{font-size: 1em;}
+
+    .escolha-curso{background-size: auto 100%;}
+}
+
+
+@media(max-width: 1130px)
+{
+    header .inferior .direita .centralAluno{display: none;}
+
+    .menuCursos 
+    {
+        float: left;
+        width: 207px;
+        margin: 40px 20px;
+    }
+
+    nav.menuCursos ul li.ativo{border: 0px;}
+    nav.menuCursos ul li{display: block}
+
+    .pg-cursos
+    {
+        width: calc(100% - 250px);
+        float: right;
+        clear: none;
+    }
+
+    .pg-cursos .item-curso
+    {
+        width: calc((100% / 2) - 22px);
+    }
+
+    .pg-cursos .subtitulo h2{font-size: 1.2em;}
+}
+
+
+@media(max-width: 980px)
+{
+    footer .barra-superior input{width: calc(22% - 40px);}
+    footer .barra-superior button{width: auto;}
+    .pg-cursos .item-curso .titulo p{font-size: 0.8em;}
+
+    .pg-curso-especifico .tituloComImg p{font-size: 0.9em; line-height: 22px;}
+    .pg-curso-especifico .tituloComImg{background-size: auto 100%;}
+
+    .pg-curso-especifico .tituloComImg .texto
+    {
+        width: 300px;
+    }
+
+
+    .formulario-escolha
+    {
+        width: 260px;
+    }
+
+    .formulario-escolha .header img
+    {
+        width: 56px;
+        padding-top: 11px;
+    }
+
+
+    .pg-curso-especifico .tituloComImg h3
+    {
+        font-size: 2.5em;
+    }
+
+
+}
+
+
+@media(max-width: 900px)
+{
+    .diferenciais .item
+    {
+        min-height: 400px;
+        width: calc((100% / 3) - 30px);
+    }
+
+
+    .pg-curso-especifico nav ul li{display: block;}
+}   
+
+
+@media(max-width: 800px)
+{
+    footer .inferior .left
+    {
+        float: initial;
+        width: 100%;
+        text-align: center;
+        padding-bottom: 45px;
+    }
+
+    footer .inferior .right{width: 100%;}
+
+    .pg-cursos .item-curso .titulo h5
+    {
+        min-height: 80px;
+    }
+}
+
+
+@media(max-width: 870px)
+{
+    .categorias .item-categoria{background-size: auto;}
+
+    .escolha-curso .col-2
+    {
+        float: initial;
+        width: 100%;
+        padding-bottom: 46px;
+        display: block;
+    }
+
+    .escolha-curso .formulario-escolha
+    {
+        display: block;
+        margin: 0 auto;
+        float: initial;
+    }
+}   
+
+
+
+@media(max-width: 768px)
+{
+    .banner .formulario-escolha{display: none;}
+    .banner .item{background-position-x: -408px;}
+
+    .pg-cursos .item-curso
+    {
+        width: 100%;
+        margin: 15px 0px;
+    }
+
+    .pg-cursos .subtitulo{width: 100%;}
+
+    .pg-cursos .item-curso .titulo h5{min-height: auto;}
+}
+
+
+@media(max-width: 730px)
+{
+    .pg-contato .titulo .texto 
+    {
+        float: initial;
+        width: 100%;
+        text-align: center;
+        padding-bottom: 40px;
+    }
+
+    .pg-contato .titulo .caixaTelefone
+    {
+        float: initial;
+        width: 250px;
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+
+@media(max-width: 700px)
+{
+    .categorias .item-categoria .tira h5
+    {
+        font-size: 0.8em;
+    }
+
+    .categorias .item-categoria .tira button
+    {
+        margin-top: 21px;
+        font-size: 0.6em;
+        padding: 10px 13px;
+    }
+
+    .tira-titulo h1{font-size: 1em;}
+    .pg-cursos .subtitulo h2{font-size: 1.1em;}
+
+    /* .pg-cursos .item-curso
+    {
+        width: calc((100% / 2) - 22px);
+    } */
+
+
+    .escolha-curso .txt p
+    {
+        font-size: 1em;
+    }
+
+    .escolha-curso .txt h3{font-size: 1.4em;}
+
+    .pg-curso-especifico .tituloComImg .texto
+    {
+        width: auto;
+        float: initial;
+        padding-bottom: 40px;
+        text-align: center;
+    }
+
+    .tituloComImg .formulario-escolha
+    {
+        display: block;
+        margin: 0 auto;
+        float: initial;
+    }
+
+
+    .pg-curso-especifico .tituloComImg h3
+    {
+        height: auto;
+        text-align: center;
+        display: block;
+        padding-bottom: 40px;
+    }
+}
+
+
+@media(max-width: 780px)
+{
+    .polos{padding: 30px 0px 100px;}
+    .polos .map{display: none;}
+
+    .polos .txt 
+    {
+        width: 100%; 
+        float: initial;
+        text-align: center;
+    }
+
+    .polos .campo
+    {
+        width: 240px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .pg-instituicao .variasLogos img
+    {
+        width: calc((100% / 3) - 65px);
+    }
+}
+
+
+
+@media(max-width: 600px)
+{
+    .pg-inicial .escolha .alinha{width: 280px;}
+    .pg-inicial .escolha .alinha img {width: 80%;}
+    .pg-inicial .escolha .alinha .botao{padding: 19px 20px;}
+    .pg-inicial .escolha .alinha h2{font-size: 1.3em;}
+
+    .pg-inicial .escolha .alinha .botao:hover .icone{width: 65px;}
+
+
+    .diferenciais .item
+    {
+        width: calc((100% / 2) - 30px);
+    }
+
+
+    .right .col-3
+    {
+        width: 100%; 
+        float: initial;
+        text-align: center;
+        padding-top: 27px;
+    }
+
+
+    .formContato .col-3
+    {
+        float: initial;
+        width: 100%;
+    }
+
+    .formContato .col-3 .p-r-10,
+    .formContato .col-3 .p-l-10,
+    .formContato .col-3 .p-r-20,
+    .formContato .col-3 .p-l-20
+    {
+        padding: 0px;
+    }
+
+    .pg-contato .formContato button{width: 200px;}
+
+    .titulo-img
+    {
+        min-height: 225px;
+    }
+
+    .titulo-img h2{font-size: 2em;}
+
+    .pg-aluno .formAluno .item
+    {
+        width: 100%; 
+        padding: 0px 0px 20px;
+        width: 100%;
+    }
+
+    .pg-aluno .formAluno .item button
+    {
+        width: 200px; 
+        display: block;
+        margin: 20px auto 0px;
+    }
+
+    .pg-instituicao .variasLogos img
+    {
+        height: 90px;
+    }
+
+    .pg-curso-especifico nav ul
+    {
+        float: initial;
+    }
+
+    .pg-curso-especifico nav button
+    {
+        display: block;
+        float: initial;
+        margin: 20px auto;
+    }
+
+    .pg-curso-especifico nav ul
+    {
+        text-align: center;
+    }
+
+
+    .pg-curso-especifico .bloco-apresentacao h4
+    {
+        font-size: 1.2em;
+    }
+
+    .pg-curso-especifico .bloco-apresentacao p
+    {
+        font-size: 1em;
+    }
+
+    .pg-curso-especifico .bloco-apresentacao button
+    {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .modal .md-busca{width: 300px;}
+}
+
+
+@media(max-width: 520px)
+{
+    .banner .item{background-size: auto 100%; background-position-x: -573px}
+
+    .logosUni .slider h4{font-size: 1.3em; padding-bottom: 27px;}
+
+    .diferenciais .titulo,
+    .categorias .homeConteudo h3{font-size: 1.3em;}
+
+    .categorias .homeConteudo button{font-size: 0.9em; padding: 11px 18px;}
+
+    .categorias .item-categoria
+    {
+        width: calc((100% / 2) - 15px);
+        margin: 7px;
+    }
+
+    .categorias .item-categoria .tira h5
+    {
+        display: block;
+        float: initial;
+        text-align: center;
+        height: 35px;
+    }
+
+    .categorias .item-categoria .tira{height: 100px;}
+
+    .categorias .item-categoria .tira button
+    {
+        float: initial;
+        display: block;
+        margin: 10px auto;
+    }
+
+    footer .barra-superior input
+    {
+        width: calc(100% - 40px);
+        display: block;
+        margin-bottom: 10px;
+    }
+
+
+    nav.menuCursos
+    {
+        float: initial;
+        margin: 0px;
+
+        position: fixed;
+        top: 0px; left: -230px;
+        z-index: 999;
+        width: 230px;
+        height: 100%;
+    }
+
+    nav.menuCursos .res{display: flex; cursor: pointer;}
+
+    .pg-cursos
+    {
+        float: initial;
+        width: 100%;
+    }
+
+    .pg-instituicao .variasLogos img
+    {
+        width: calc((100% / 2) - 65px);
+        height: 110px;
+    }
+
+    .banner .overlay{display: block;}
+}
+
+@media(max-width: 560px)
+{
+    header .superior ul.nav li b{font-size: 0.7em;}
+    header .superior ul.nav li{padding: 7px 10px;}
+
+    header .superior ul.nav{float: left;}
+
+    header .superior .icones{float: right;}
+
+    header .superior ul.nav li .modal_NosTeLigamos{padding: 10px;}
+
+    header .superior ul.nav li .modal_FaleConosco p, 
+    header .superior ul.nav li .modal_FaleConosco a
+    {
+        font-size: 0.7em;
+    }
+
+    header .superior ul.nav li .modal_FaleConosco h4{font-size: 1em;}
+    header .superior ul.nav li .modal_FaleConosco{padding: 10px;}
+
+
+    .modal .md-inscrevase{width: 250px;}
+    .modal .md-inscrevase h3{font-size: 1em;}
+    .modal .md-inscrevase form{width: 100%;}
+
+    .polosBrasil .busca select, 
+    .polosBrasil .busca .input
+    {
+        width: calc(100% - 20px);
+        margin: 10px 0px;
+        padding: 10px;
+    }
+
+    .polosBrasil .busca select{width: 100%;}
+}
+
+
+@media(max-width: 450px)
+{
+    .categorias .item-categoria .mec
+    {
+        width: 45px;
+    }
+
+    .diferenciais .item
+    {
+        min-height: 300px;
+    }
+
+    .formulario-escolha{width: 80%;}
+
+    .bloco-duvidas .col-2,
+    .bloco-duvidas .col-3
+    {
+        float: initial;
+        width: 100%;
+    }
+
+    .bloco-duvidas .p-r-10,
+    .bloco-duvidas .p-l-10
+    {
+        padding: 0px;
+    }
+
+    .pg-curso-especifico .bloco-duvidas button
+    {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .modal .md-inscrevase{padding: 20px;}
+
+    .banner .item .texto{padding-top: 110px;}
+    .banner .item .texto h4{font-size: 1.4em; width: 206px;}
+    .banner .item .texto p{font-size: 1.2em;}
+    .banner .item .texto img{width: 200px;}
+
+    .banner .item .texto button{padding: 13px 30px;}
+
+    header .superior i{font-size: 0.8em;}
+}
+
+
+@media(max-width: 410px)
+{
+    .categorias .item-categoria{width: 100%; margin: 7px 0px;}
+    .categorias .item-categoria .tira h5{font-size: 0.9em;}
+
+
+    header .superior .mobile label
+    {
+        font-size: 0.6em;
+        padding-right: 10px;
+    }
+
+    header .superior .mobile input
+    {
+        padding: 5px;
+        width: 60px;
+        margin: 0 1px;
+        font-size: 0.5em;
+    }
+
+    header .superior .mobile .btn
+    {
+        padding: 5px 10px;
+        font-size: 0.6em;
+        margin-left: 3px;
+    }
+}
+
+
+@media(max-width: 370px)
+{
+    .owl-carousel .owl-nav .owl-next, 
+    .owl-carousel .owl-nav .owl-prev
+    {
+        top: 45px;
+    }
+
+    .pg-instituicao .variasLogos img
+    {
+        height: 84px;
+    }
+
+}
+
+
+@media(max-width: 340px)
+{
+    .diferenciais .item
+    {
+        width: 100%;
+        margin: 15px 0px;
+        padding: 0px;
+        min-height: auto;
+    }
+
+    .formulario-escolha .header .lateral h2
+    {
+        font-size: 0.9em;
+    }
+
+    .formulario-escolha .header .lateral p
+    {
+        font-size: 0.6em;
+    }
+}

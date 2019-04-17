@@ -38,4 +38,5 @@ function __autoload($class)
     {
         include($url . end($aux) . '.php');
     }
-}
+} // End >> AUTOLOAD
+

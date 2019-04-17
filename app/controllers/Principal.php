@@ -13,15 +13,19 @@ use Sistema\Controller as CI_controller;
 
 class Principal extends CI_controller
 {
+
+    // Método construtor
     function __construct()
     {
+        // Carrega o contrutor da classe pai
+        parent::__construct();
     }
 
 
     public function index()
     {
-        parent::view("index");
+        $this->view("index");
     }
-    
+
 
 } // END::Class Principal
