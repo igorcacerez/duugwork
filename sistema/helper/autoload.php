@@ -36,7 +36,16 @@ function __autoload($class)
     // Inclui o Arquivo
     if($url != null)
     {
-        include($url . end($aux) . '.php');
+        // Remove o primeiro item do array
+        array_shift($aux);
+
+        // Transforma o array em string
+        $aux = implode("/",$aux);
+
+        // Inclui o arquivo
+        include($url . $aux . '.php');
     }
+
+    
 } // End >> AUTOLOAD
 

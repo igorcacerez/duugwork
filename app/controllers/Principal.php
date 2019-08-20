@@ -24,7 +24,7 @@ class Principal extends CI_controller
 
     public function index()
     {
-        $this->view("index");
+        echo "TESTE";
     }
 
 

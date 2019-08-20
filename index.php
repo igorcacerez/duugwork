@@ -1,25 +1,30 @@
-<?php 
+<?php
+
+// Acesso a paginas externas
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Authorization");
+
+// Seta a zona time
+date_default_timezone_set("America/Sao_Paulo");
+
+// Globais
+global $Rotas;
+
+// AutoLoad
+require("sistema/Helper/autoload.php");
 
 // Objetos de configuração do sistema
 use Sistema\Rotas;
 
+// Instancia a rota
+$Rotas = new Rotas();
+
 // Requires de configurações do sistema
 require("app/config/config.php");
 require("app/config/constantes.php");
-
-// AutoLoad
-require("sistema/helper/autoload.php");
+require("app/config/rotas.php");
 
 
-// Configura a rotas
-$ObjRotas = new Rotas();
-$RetornoRota = $ObjRotas->configurar();
-
-$metodo =  $RetornoRota["metodo"];
-
-// Instacia o controller
-$Class = new $RetornoRota["controller"];
-
-// Chama o método
-$Class->$metodo($RetornoRota["parametros"]);
+// Execulta a rota
+$Rotas->executar();
 

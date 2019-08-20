@@ -23,7 +23,7 @@ use Sistema\Database;
 
 class Curso extends Database
 {
-    private static $conexao;
+    private $conexao;
 
     // Método construtor
     public function __construct()
@@ -32,7 +32,7 @@ class Curso extends Database
         parent::__construct();
 
         // Retorna a conexao
-        self::$conexao = parent::getConexao();
+        $this->conexao = parent::getConexao();
 
         // Seta o nome da tablea
         parent::setTable("curso");

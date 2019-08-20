@@ -23,10 +23,10 @@ use \PDO;
 
 class Database
 {
-    private static $database;
-    private static $db;
+    private $database;
+    private $db;
 
-    private static $table;
+    private $table;
 
 
 
@@ -38,19 +38,19 @@ class Database
         require("./app/config/database.php");
 
         // Adiciona as configurações ao item privado
-        self::$database = $database;
+        $this->database = $database;
 
         try
         {
             // Realiza a conexão do banco
-            self::$db = new PDO('mysql:host='.$database["hostname"].';dbname='.$database["database"].'',
+            $this->db = new PDO('mysql:host='.$database["hostname"].';dbname='.$database["database"].'',
                 ''.$database["username"].'',
                 ''.$database["password"].'',
                 array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 
 
-            self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            self::$db->setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_EMPTY_STRING);
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->db->setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_EMPTY_STRING);
         }
         catch (\PDOException $e)
         {
@@ -66,7 +66,7 @@ class Database
     // com o banco de dados
     public function getConexao()
     {
-        return self::$db;
+        return $this->db;
     }
     
 
@@ -79,7 +79,12 @@ class Database
     // Seta a tabela
     public function setTable($table)
     {
-        self::$table = $table;
+        $this->table = $table;
+    }
+
+    public function getTable()
+    {
+        return $this->table;
     }
 
 
@@ -96,15 +101,16 @@ class Database
         // verifica se possui where
         if($where == null)
         {
-            $sql = "SELECT * FROM " . self::$table;
+            $sql = "SELECT * FROM " . $this->table;
         }
         else
         {
             // Verifica se é uma array
             if(is_array($where))
             {
-                $sql = "SELECT * FROM " . self::$table . " WHERE ";
+                $sql = "SELECT * FROM " . $this->table . " WHERE ";
                 $whereAux = null;
+                $cont = 1;
 
                 foreach ($where as $item => $valor)
                 {
@@ -113,17 +119,21 @@ class Database
                         $whereAux .= " AND ";
                     }
 
-                    $whereAux .= "{$item} = :{$item}";
+                    $whereAux .= "{$item} = :A{$cont}";
 
-                    $aux[":" . $item] = $valor;
+                    $aux[":A" . $cont] = $valor;
+
+                    // Incrementa o cont
+                    $cont++;
                 }
+
+                $sql .= $whereAux;
             }
             else
             {
                 $sql = $where;
             }
         }
-
 
         // Verifica se possui ordem
         if($order != null)
@@ -138,17 +148,16 @@ class Database
             $sql .= " LIMIT {$limit}";
         }
 
-
         // Executa a ação
         try
         {
             if($aux == null)
             {
-                $query = self::$db->query($sql);
+                $query = $this->db->query($sql);
             }
             else
             {
-                $query = self::$db->prepare($sql);
+                $query = $this->db->prepare($sql);
                 $query->execute($aux);
             }
 
@@ -156,7 +165,7 @@ class Database
         }
         catch (\PDOException $e)
         {
-            echo "Erro: " . $e->getMessage();
+            echo "Erro: " . $e->getMessage() . " - " . $e->getFile() . " - " . $e->getLine();
             exit;
         }
 
@@ -171,7 +180,7 @@ class Database
     {
         $aux = null;
         $whereAux = null;
-        $table = self::$table;
+        $table = $this->table;
 
         // Verifica se o altera é != null
         if($altera != null)
@@ -182,7 +191,7 @@ class Database
                 $sql = "UPDATE {$table} SET ";
 
                 // Dados a ser alterados
-                foreach (altera as $item => $valor)
+                foreach ($altera as $item => $valor)
                 {
                     // Verifica se não é o primeiro
                     if($aux != null)
@@ -221,6 +230,8 @@ class Database
                             $sql .= "{$item} = :{$item} ";
                             $aux[":" . $item] = $valor;
                         }
+
+                        $whereAux = 1;
                     }
                 }
                 else
@@ -236,15 +247,16 @@ class Database
                 // Executa a alteração
                 try
                 {
-                    $query = self::$db->prepare($sql);
+                    $query = $this->db->prepare($sql);
                     $query->execute($aux);
 
                     // Retorna
                     return $query;
+
                 }
                 catch (\PDOException $e)
                 {
-                    "Error: " . $e->getMessage();
+                    echo "Error: " . $e->getMessage();
                     exit;
                 }
             }
@@ -267,7 +279,7 @@ class Database
     // Passa os itens a ser inserido por parametro via array
     public function insert($salva = null)
     {
-        $table = self::$table;
+        $table = $this->table;
 
         if(is_array($salva))
         {
@@ -288,22 +300,29 @@ class Database
                         $valores .= ",";
                     }
 
-                    $colunas = "{$item}";
-                    $valores = ":{$item}";
+                    $colunas .= "{$item}";
+                    $valores .= "?";
 
-                    $aux[":" . $item] = $valor;
+                    $aux[] .= $valor;
                 }
 
                 $sql .= "({$colunas}) VALUES ({$valores})";
 
-                $query = self::$db->prepare($sql);
+                $query = $this->db->prepare($sql);
                 $query->execute($aux);
 
-                return $query->lastInsertId();
+                if($query != null && $query != false)
+                {
+                    return $this->db->lastInsertId();
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (\PDOException $e)
             {
-                echo "Erro: " . $e->getMessage();
+                echo "Erro: " . $e->getMessage() . " - " . $e->getFile() . " - " . $e->getLine();
                 exit;
             }
         }
@@ -319,7 +338,7 @@ class Database
     // Deleta um item do banco de dados
     public function delete($where = null)
     {
-        $table = self::$table;
+        $table = $this->table;
 
         // Verifica se é diferente de null
         if($where != null)
@@ -357,19 +376,19 @@ class Database
 
                 if($aux == null)
                 {
-                    self::$db->exec($sql);
+                    $query = $this->db->exec($sql);
                 }
                 else
                 {
-                    $query = self::$db->prepare($sql);
+                    $query = $this->db->prepare($sql);
                     $query->execute($aux);
                 }
 
-                return true;
+                return $query;
             }
             catch (\PDOException $e)
             {
-                "Erro: " . $e->getMessage();
+                echo "Erro: " . $e->getMessage();
                 exit;
             }
 
