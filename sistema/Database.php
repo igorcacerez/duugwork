@@ -158,7 +158,13 @@ class Database
             else
             {
                 $query = $this->db->prepare($sql);
-                $query->execute($aux);
+
+                foreach ($aux as $item => $value)
+                {
+                    $query->bindValue($item,$value);
+                }
+
+                $query->execute();
             }
 
             return $query;
@@ -248,11 +254,13 @@ class Database
                 try
                 {
                     $query = $this->db->prepare($sql);
-                    $query->execute($aux);
 
-                    // Retorna
-                    return $query;
+                    foreach ($aux as $item => $value)
+                    {
+                        $query->bindValue($item,$value);
+                    }
 
+                    $query->execute();
                 }
                 catch (\PDOException $e)
                 {
@@ -309,7 +317,13 @@ class Database
                 $sql .= "({$colunas}) VALUES ({$valores})";
 
                 $query = $this->db->prepare($sql);
-                $query->execute($aux);
+
+                foreach ($aux as $item => $value)
+                {
+                    $query->bindValue($item,$value);
+                }
+
+                $query->execute();
 
                 if($query != null && $query != false)
                 {
@@ -381,7 +395,13 @@ class Database
                 else
                 {
                     $query = $this->db->prepare($sql);
-                    $query->execute($aux);
+
+                    foreach ($aux as $item => $value)
+                    {
+                        $query->bindValue($item,$value);
+                    }
+
+                    $query->execute();
                 }
 
                 return $query;
