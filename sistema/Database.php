@@ -68,7 +68,7 @@ class Database
     {
         return $this->db;
     }
-    
+
 
     /**
      *  Métodos para facilitar o desenvolvimento de aplicações
@@ -261,6 +261,8 @@ class Database
                     }
 
                     $query->execute();
+
+                    return $query;
                 }
                 catch (\PDOException $e)
                 {
@@ -308,6 +310,7 @@ class Database
                         $valores .= ",";
                     }
 
+
                     $colunas .= "{$item}";
                     $valores .= "?";
 
@@ -317,13 +320,8 @@ class Database
                 $sql .= "({$colunas}) VALUES ({$valores})";
 
                 $query = $this->db->prepare($sql);
+                $query->execute($aux);
 
-                foreach ($aux as $item => $value)
-                {
-                    $query->bindValue($item,$value);
-                }
-
-                $query->execute();
 
                 if($query != null && $query != false)
                 {
