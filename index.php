@@ -25,6 +25,14 @@ require("app/config/constantes.php");
 require("app/config/rotas.php");
 
 
+// Verifica se existe o autoload do composer
+if(is_file("./vendor/autoload.php") == true)
+{
+    // Chama o arquivo
+    require './vendor/autoload.php';
+}
+
+
 // Execulta a rota
 $Rotas->executar();
 
