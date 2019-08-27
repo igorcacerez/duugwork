@@ -15,27 +15,6 @@
 
     <!-- Responsivo  ================================================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Favicon ================================================== -->
-    <link rel="shortcut icon" type="image/png" href="<?= BASE_URL; ?>arquivos/assets/img/favicon.png" />
-
-    <!-- Icones -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
-
-
-    <!-- Css - Personalizado -->
-    <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>arquivos/assets/css/estilo.css" />
-    <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>arquivos/assets/css/responsivo.css" />
-
-    <!--
-    ==================================================
-                    JAVASCRIPT
-    ==================================================
-    -->
-
-    <!-- Jquery -->
-    <script src="<?= BASE_URL; ?>arquivos/plugins/jquery/jquery.min.js"></script> 
 </head>
 <body>
 

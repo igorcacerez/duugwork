@@ -8,12 +8,12 @@ define('TB', 1099511627776);
 
 // Configuração de email
 define("EMAIL_CONFIG", [
-    "host" => "smtp.gmail.com",
-    "port" => "465",
+    "host" => "",
+    "port" => "",
     "autenticacao" => true,
     "seguranca" => "ssl",
-    "email" => "mail@desigual.com.br",
-    "senha" => "Desigu@al#!147",
+    "email" => "",
+    "senha" => "",
     "charset" => "UTF-8"
 ]);
 
