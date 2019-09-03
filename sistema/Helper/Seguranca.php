@@ -226,6 +226,12 @@ class Seguranca
             }
         }
 
+        // Se chegou aqui é pq não achou
+        // Acesso negado
+        header('WWW-Authenticate: Basic realm="My Realm"');
+        header('HTTP/1.0 401 Unauthorized');
+        die("Not authorized");
+
     } // End >> fun::security()
 
 } // End >> Class::Seguranca()
