@@ -16,11 +16,8 @@ if(is_file("./vendor/autoload.php") == true)
     // AutoLoad
     require("vendor/autoload.php");
 
-    // Objetos de configuração do sistema
-    use Sistema\Rotas;
-
     // Instancia a rota
-    $Rotas = new Rotas();
+    $Rotas = new Sistema\Rotas();
 
     // Requires de configurações do sistema
     require("app/config/config.php");

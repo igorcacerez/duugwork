@@ -21,7 +21,7 @@ namespace Model;
 use Sistema\Database;
 
 
-class Example extends Database
+class Token extends Database
 {
     private $conexao;
 
@@ -35,7 +35,7 @@ class Example extends Database
         $this->conexao = parent::getConexao();
 
         // Seta o nome da tablea
-        parent::setTable("NAME_TABLE");
+        parent::setTable("token");
 
     } // END >> Fun::__construct()
 

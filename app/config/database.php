@@ -4,5 +4,5 @@ $database = [
     'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
-	'database' => ''
+	'database' => 'jobflix'
 ];
