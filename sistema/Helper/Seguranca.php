@@ -28,6 +28,7 @@ class Seguranca
     // Objetos da Classe
     private $objModelToken = null;
     private $objModelUsuario = null;
+    private $objHelperApi;
 
 
     // Método construtor
@@ -36,6 +37,7 @@ class Seguranca
         // Instancia o model
         $this->objModelToken = new Token();
         $this->objModelUsuario = new Usuario();
+        $this->objHelperApi = new Api();
 
     } // End >> Fun::__construct()
 
@@ -187,6 +189,7 @@ class Seguranca
         // Variaveis
         $bearer = null;
         $usuario = null;
+        $dataAtual = date("Y-m-d H:i:s");
 
         // Percorre o cabeçalho
         foreach (getallheaders() as $name => $value)
@@ -198,7 +201,31 @@ class Seguranca
                 $bearer = explode("Bearer ",$value);
                 $bearer = $bearer[0];
 
-                // Busca o usuario
+                // Verifica se possui session
+                if(isset($_SESSION["token"]))
+                {
+                    // Verifica se é o mesmo token
+                    if($_SESSION["token"]->token == $bearer)
+                    {
+                        // Verifica se está ativo
+                        if($_SESSION["token"]->data_expira > $dataAtual)
+                        {
+                            // Retorna o usuario com o token
+                            $usuario = $_SESSION["usuario"];
+                            $usuario->token = $_SESSION["token"];
+
+                            // retorna e encerra o codigo
+                            return $usuario;
+                        }
+                    }
+                }
+
+
+                // -- Não possui o codigo na session
+                // -- Então ira buscar o código no banco de dados
+
+
+                // Busca o token no banco
                 $token = $this->objModelToken->get(["token" => $bearer]);
 
                 // verifica se encontrou
@@ -207,14 +234,23 @@ class Seguranca
                     // Fetch Token
                     $token = $token->fetch(\PDO::FETCH_OBJ);
 
-                    //Busca o usuario
-                    $usuario = $this->objModelUsuario->get(["id_usuario" => $token->id_usuario])->fetch(\PDO::FETCH_OBJ);
+                    // verifica se o token está ativo
+                    if($token->data_expira > $dataAtual)
+                    {
+                        //Busca o usuario
+                        $usuario = $this->objModelUsuario->get(["id_usuario" => $token->id_usuario])->fetch(\PDO::FETCH_OBJ);
 
-                    // Add o token ao usuario
-                    $usuario->token = $token;
+                        // Add o token ao usuario
+                        $usuario->token = $token;
 
-                    // retorna
-                    return $usuario;
+                        // retorna o usuário e encerra o código
+                        return $usuario;
+                    }
+                    else
+                    {
+                        // Avisa que o token expirou
+                        $this->objHelperApi->view(["mensagem" => "Token informado expirou", "code" => 401]);
+                    }
                 }
                 else
                 {
@@ -224,7 +260,8 @@ class Seguranca
                     die("Not authorized");
                 }
             }
-        }
+
+        } // end::foreach (getallheaders() as $name => $value)
 
         // Se chegou aqui é pq não achou
         // Acesso negado

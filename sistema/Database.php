@@ -154,8 +154,7 @@ class Database
         if($order != null)
         {
             // Adiciona o SQL
-            $sql .= " ORDER BY :ordem";
-            $aux[":ordem"] = $order;
+            $sql .= " ORDER BY " . $order;
         }
 
 
@@ -163,8 +162,7 @@ class Database
         if($limit != null)
         {
             // Adiciona o SQL
-            $sql .= " LIMIT :limit";
-            $aux[":limit"] = $limit;
+            $sql .= " LIMIT " . $limit;
         }
 
 

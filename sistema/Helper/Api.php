@@ -68,6 +68,12 @@ class Api
             $dados["objeto"] = null;
         }
 
+        // Verifica se informou o codigo do erro
+        if(!isset($dados["code"]))
+        {
+            $dados["code"] = "400";
+        }
+
         // exibe
         echo json_encode($dados);
 

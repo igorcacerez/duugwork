@@ -204,16 +204,8 @@ class Rotas
             // quebra em sub
             $sub = explode("\\", $class);
 
-            // verifica se inseriu namespace
-            if(isset($sub[1]) == false)
-            {
-                return "\Controller\\" . $class;
-            }
-            else
-            {
-                return $class;
-            }
-
+            // Adiciona o controller na rota
+            return "\Controller\\" . $class;
         }
     }
 
