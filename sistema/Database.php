@@ -11,7 +11,7 @@
  *
  * ===================================================================================
  *
- *  Autor: igorcacerez
+ *  Autor: Igor Cacerez
  *  Data: 17/04/2019
  *
  */
@@ -23,12 +23,13 @@ use \PDO;
 
 class Database
 {
-    // Variaveis Globais da Class
     private $database;
     private $db;
+
     private $table;
 
-    // Método Construtor
+
+
     function __construct()
     {
         $database = null;
@@ -55,52 +56,51 @@ class Database
         {
             echo 'Error:'. $e->getMessage();
         }
+    }
 
-    } // End >> Fun::__construct()
 
 
-    // Retorna a conexao
+
+
+    // Método responsável por retornar a conexão
+    // com o banco de dados
     public function getConexao()
     {
         return $this->db;
     }
+    
+
+    /**
+     *  Métodos para facilitar o desenvolvimento de aplicações
+     *  deixando um "CRUD" pré programado
+     */
 
 
-    // Set Table
+    // Seta a tabela
     public function setTable($table)
     {
         $this->table = $table;
     }
 
-
-    // Get Table
     public function getTable()
     {
         return $this->table;
     }
 
 
-    /**
-     * Método responsável por execultar uma busca no banco de dados
-     * e retornar os dados encontrados.
-     * --------------------------------------------------------------
-     *
-     * @param null $where
-     * @param null $order
-     * @param null $limit
-     * @return bool|false|\PDOStatement
-     */
+
+
+    // Retorna os dados do banco
+    // Pode-se passar por parametro o where em forma de array ou string
+    // order By e Limit
     public function get($where = null, $order = null, $limit = null)
     {
-        // Variaveis
+        // Busca
         $aux = null;
-        $whereAux = null;
-        $cont = 1;
 
         // verifica se possui where
         if($where == null)
         {
-            // Retorna tudo
             $sql = "SELECT * FROM " . $this->table;
         }
         else
@@ -108,113 +108,76 @@ class Database
             // Verifica se é uma array
             if(is_array($where))
             {
-                // Monta a query
                 $sql = "SELECT * FROM " . $this->table . " WHERE ";
+                $whereAux = null;
+                $cont = 1;
 
-                // Percorre o array
                 foreach ($where as $item => $valor)
                 {
-                    // Add o AND a query
-                    $whereAux .= ($whereAux != null) ? " AND " : "";
-
-                    // Pego o ultimo algarismo do item
-                    $tipo = substr($item, -1);
-
-                    // Verifica se é um verificador
-                    if($tipo == "=" || $tipo == ">" || $tipo == "<")
+                    if ($whereAux != null)
                     {
-                        // Adiciona a query sem o verificador
-                        $whereAux .= "{$item} :A{$cont}";
-                    }
-                    else
-                    {
-                        // Adiciona a query com o verificador =
-                        $whereAux .= "{$item} = :A{$cont}";
+                        $whereAux .= " AND ";
                     }
 
-                    // Auxiliar para o bin
+                    $whereAux .= "{$item} = :A{$cont}";
+
                     $aux[":A" . $cont] = $valor;
 
                     // Incrementa o cont
                     $cont++;
+                }
 
-                } // End >> foreach($where as $item => $valor)
-
-                // Adiciona o SQL
                 $sql .= $whereAux;
             }
             else
             {
-                // Fala que deu erro.
-                return false;
+                $sql = $where;
             }
         }
 
         // Verifica se possui ordem
         if($order != null)
         {
-            // Adiciona o SQL
-            $sql .= " ORDER BY " . $order;
+            $sql .= " ORDER BY {$order}";
         }
 
 
         // Verifica se possui Limit
         if($limit != null)
         {
-            // Adiciona o SQL
-            $sql .= " LIMIT " . $limit;
+            $sql .= " LIMIT {$limit}";
         }
 
-
-        // -- Executa a Ação
+        // Executa a ação
         try
         {
-            // Verifica se é nullo
             if($aux == null)
             {
-                // Execulta o sql
                 $query = $this->db->query($sql);
             }
             else
             {
-                // Prepara o SQL
                 $query = $this->db->prepare($sql);
-
-                // Informa os campos - Tratamento sql injection
-                foreach ($aux as $item => $value)
-                {
-                    // Add o campo
-                    $query->bindValue($item,$value);
-                }
-
-                // Execulta o sql
-                $query->execute();
+                $query->execute($aux);
             }
 
-            // retorna o que aconteceu
             return $query;
         }
         catch (\PDOException $e)
         {
-            $this->getError($e);
+            echo "Erro: " . $e->getMessage() . " - " . $e->getFile() . " - " . $e->getLine();
+            exit;
         }
 
     } // END >> Fun::get()
 
 
 
-    /**
-     * Método responsável por editar os dados de um registro
-     * no banco de dados.
-     * ------------------------------------------------------
-     *
-     * @param null $altera
-     * @param null $where
-     * @return bool
-     */
+    // Altera os dados do banco
+    // Pasando os dados a ser alterados por array
+    // e o where por array ou string
     public function update($altera = null, $where = null)
     {
-        // Variaveis
         $aux = null;
         $whereAux = null;
         $table = $this->table;
@@ -225,23 +188,20 @@ class Database
             // Verifica se é um array
             if(is_array($altera))
             {
-                // Monta o sql
                 $sql = "UPDATE {$table} SET ";
-
-                // Zera o contador
-                $cont = 1;
 
                 // Dados a ser alterados
                 foreach ($altera as $item => $valor)
                 {
                     // Verifica se não é o primeiro
-                    $sql .= ($aux != null) ? ", " : "";
+                    if($aux != null)
+                    {
+                        $sql .= ", ";
+                    }
 
-                    // Cria o sql
-                    $sql .= "{$item} = :A{$cont}";
+                    $sql .= "{$item} = :{$item}";
 
-                    // itens do bin
-                    $aux["A:" . $cont] = $valor;
+                    $aux[":" . $item] = $valor;
                 }
 
 
@@ -250,46 +210,36 @@ class Database
                 {
                     $sql .= " WHERE ";
 
-                    // Zera o cont
-                    $cont = 1;
-
                     // Dados do where
                     foreach ($where as $item => $valor)
                     {
-                        // Add o AND a query
-                        $sql .= ($whereAux != null) ? " AND " : "";
-
-
-                        // Pego o ultimo algarismo do item
-                        $tipo = substr($item, -1);
-
-                        // Verifica se é um verificador
-                        if($tipo == "=" || $tipo == ">" || $tipo == "<")
+                        if($whereAux != null)
                         {
-                            // Adiciona a query sem o verificador
-                            $sql .= "{$item} :B{$cont}";
+                            $sql .= "AND ";
+                        }
+
+
+                        // Verifica se já possui esse item no array
+                        if(array_key_exists(":{$item}",$aux))
+                        {
+                            $sql .= "{$item} = :{$item}2 ";
+                            $aux[":" . $item . "2"] = $valor;
                         }
                         else
                         {
-                            // Adiciona a query com o verificador =
-                            $sql .= "{$item} = :B{$cont}";
+                            $sql .= "{$item} = :{$item} ";
+                            $aux[":" . $item] = $valor;
                         }
 
-                        // Auxiliar para o bin
-                        $aux[":B" . $cont] = $valor;
-
-                        // Incrementa o cont
                         $whereAux = 1;
-                        $cont++;
                     }
                 }
                 else
                 {
-                    // Verifica se é nullo
+                    // Verifica se é != de null
                     if($where != null)
                     {
-                        // avisa que deu erro
-                        return false;
+                        $sql .= " WHERE " . $where;
                     }
                 }
 
@@ -297,22 +247,17 @@ class Database
                 // Executa a alteração
                 try
                 {
-                    // Prepara o SQL
                     $query = $this->db->prepare($sql);
+                    $query->execute($aux);
 
-                    // Informa os campos - Tratamento sql injection
-                    foreach ($aux as $item => $value)
-                    {
-                        // Add o campo
-                        $query->bindValue($item,$value);
-                    }
+                    // Retorna
+                    return $query;
 
-                    // Execulta o sql
-                    $query->execute();
                 }
                 catch (\PDOException $e)
                 {
-                    $this->getError($e);
+                    echo "Error: " . $e->getMessage();
+                    exit;
                 }
             }
             else
@@ -329,28 +274,22 @@ class Database
 
 
 
-    /**
-     * Método responsável por adiciona um registro no banco de dados
-     * e retornar o Id do mesmo caso for execultado com sucesso.
-     * --------------------------------------------------------------
-     *
-     * @param null $salva
-     * @return bool|string
-     */
+    // Insere um item no banco de dados
+    // Retorna o ID do item inserido
+    // Passa os itens a ser inserido por parametro via array
     public function insert($salva = null)
     {
-        // Variaveis
         $table = $this->table;
-        $sql = "INSERT INTO {$table} ";
-        $aux = null;
-        $colunas = null;
-        $valores = null;
 
-        // verifica se é um array
         if(is_array($salva))
         {
             try
             {
+                $sql = "INSERT INTO {$table} ";
+                $aux = null;
+                $colunas = null;
+                $valores = null;
+                $cont = 1;
                 // Percorre os valores
                 foreach ($salva as $item => $valor)
                 {
@@ -361,18 +300,18 @@ class Database
                         $valores .= ",";
                     }
 
-
                     $colunas .= "{$item}";
-                    $valores .= "?";
+                    $valores .= ":A{$cont}";
 
-                    $aux[] .= $valor;
+                    $aux[":A" . $cont] =  $valor;
+
+                    $cont++;
                 }
 
                 $sql .= "({$colunas}) VALUES ({$valores})";
 
                 $query = $this->db->prepare($sql);
                 $query->execute($aux);
-
 
                 if($query != null && $query != false)
                 {
@@ -385,7 +324,8 @@ class Database
             }
             catch (\PDOException $e)
             {
-                $this->getError($e);
+                echo "Erro: " . $e->getMessage() . " - " . $e->getFile() . " - " . $e->getLine();
+                exit;
             }
         }
         else
@@ -397,54 +337,33 @@ class Database
 
 
 
-    /**
-     * Método responsável por deletar um registro do banco de dados.
-     * E retornar o item deletado.
-     * -----------------------------------------------------------------
-     *
-     * @param null $where
-     * @return bool|\PDOStatement
-     */
+    // Deleta um item do banco de dados
     public function delete($where = null)
     {
-        // Variaveis
         $table = $this->table;
-        $sql = "DELETE FROM {$table} WHERE ";
-        $aux = null;
-        $whereAux = null;
-        $cont = 1;
 
         // Verifica se é diferente de null
         if($where != null)
         {
-            // Verifica se é array
             if(is_array($where))
             {
-                // Percorre o where
+                $sql = "DELETE FROM {$table} WHERE ";
+                $aux = null;
+                $whereAux = null;
+                $cont = 1;
+
                 foreach ($where as $item => $value)
                 {
-                    // Add o AND a query
-                    $whereAux .= ($whereAux != null) ? " AND " : "";
-
-                    // Pego o ultimo algarismo do item
-                    $tipo = substr($item, -1);
-
-                    // Verifica se é um verificador
-                    if($tipo == "=" || $tipo == ">" || $tipo == "<")
+                    // Verifica se n é a primeira passada
+                    if($whereAux != null)
                     {
-                        // Adiciona a query sem o verificador
-                        $whereAux .= "{$item} :A{$cont}";
-                    }
-                    else
-                    {
-                        // Adiciona a query com o verificador =
-                        $whereAux .= "{$item} = :A{$cont}";
+                        $whereAux .= " AND ";
                     }
 
-                    // Auxiliar para o bin
+                    $whereAux .= "{$item} = :A{$cont}";
+
                     $aux[":A" . $cont] = $value;
 
-                    // Incrementa o cont
                     $cont++;
                 }
 
@@ -452,33 +371,32 @@ class Database
             }
             else
             {
-                return false;
+                $sql = $where;
             }
 
 
             // Executa a ação no banco
             try
             {
-                // Prepara o SQL
-                $query = $this->db->prepare($sql);
 
-                // Seta os itens
-                foreach ($aux as $item => $value)
+                if($aux == null)
                 {
-                    $query->bindValue($item,$value);
+                    $query = $this->db->exec($sql);
+                }
+                else
+                {
+                    $query = $this->db->prepare($sql);
+                    $query->execute($aux);
                 }
 
-                // Execulta o SQL
-                $query->execute();
-
-                // Retorna a execulção
                 return $query;
             }
             catch (\PDOException $e)
             {
-                // Retorna o erro
-                $this->getError($e);
+                echo "Erro: " . $e->getMessage();
+                exit;
             }
+
         }
         else
         {
@@ -486,101 +404,5 @@ class Database
         }
 
     } // END >> Fun::delete()
-
-
-
-
-    /**
-     * Método responsável por execultar uma query no banco de
-     * dados.
-     * ----------------------------------------------------
-     *
-     * @param null $sql
-     * @param null|array $campos
-     * @return bool|int|\PDOStatement
-     */
-    public function query($sql = null, $campos = null)
-    {
-        // Variaveis
-        $tabela = $this->getTable();
-        $cont = 1;
-        $where = null;
-
-        try
-        {
-            // Verifica se adicionou os campos
-            if($campos != null)
-            {
-                // Verifica se é array
-                if(is_array($campos))
-                {
-                    // Prepara o SQL
-                    $query = $this->db->prepare($sql);
-
-                    // Seta os itens
-                    foreach ($campos as $item => $value)
-                    {
-                        $query->bindValue($item,$value);
-                    }
-
-                    // Execulta o SQL
-                    $query->execute();
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                $query = $this->db->exec($sql);
-            }
-
-            // Retorna a query
-            return $query;
-        }
-        catch (\PDOException $e)
-        {
-            $this->getError($e);
-        }
-
-    } // End >> fun::query()
-
-
-
-    /**
-     * ============================================
-     *              Métodos Privados
-     * ============================================
-     */
-
-
-    /**
-     * Método responsável por retornar os erros em uma
-     * tela diferenciada e bonita.
-     * -----------------------------------------------
-     * @param null $e
-     */
-    private function getError($e = null)
-    {
-        // Variaveis para a view
-        $dados = [
-            "titulo" => "Erro na Database",
-            "arquivo" => $e->getFile(),
-            "descricao" => $e->getMessage(),
-            "codigo" =>  $e->getCode(),
-            "linha" => $e->getLine(),
-        ];
-
-        // Extrai as variaveis
-        extract($dados,EXTR_OVERWRITE);
-
-        // Chama a view
-        include("./app/views/error/error.php");
-
-        // Mata o código
-        exit;
-
-    } // End >> fun::getError()
 
 } // END >> Class::Database
