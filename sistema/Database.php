@@ -242,6 +242,7 @@ class Database
 
                     // itens do bin
                     $aux["A:" . $cont] = $valor;
+                    $cont++;
                 }
 
 
