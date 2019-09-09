@@ -241,7 +241,7 @@ class Database
                     $sql .= "{$item} = :A{$cont}";
 
                     // itens do bin
-                    $aux["A:" . $cont] = $valor;
+                    $aux[":A" . $cont] = $valor;
                     $cont++;
                 }
 
@@ -309,7 +309,7 @@ class Database
                     }
 
                     // Execulta o sql
-                    $query->execute();
+                    return $query->execute();
                 }
                 catch (\PDOException $e)
                 {
