@@ -111,6 +111,12 @@ class Input
      */
     private function getInputsType()
     {
+        // Armazena os dados post
+        $this->varPost = $_POST;
+
+        // armazena os dados get
+        $this->varGet = $_GET;
+
         // Verifica se ouve envio de dados via DELETE
         if (!strcasecmp($_SERVER['REQUEST_METHOD'], 'DELETE'))
         {
@@ -121,22 +127,15 @@ class Input
         // Verifica se ouve envio de dados via PUT
         if (!strcasecmp($_SERVER['REQUEST_METHOD'], 'PUT'))
         {
-            // responsável por armazenar os dados PUT
-            parse_str(file_get_contents('php://input'), $this->varPut);
-        }
+            // Pega os dados json put
+            $decoded_input = json_decode(file_get_contents("php://input"), true);
 
-        // Verifica se ouve requisição POST
-        if(isset($_POST))
-        {
-            // Armazena os dados post
-            $this->varPost = $_POST;
-        }
-
-        // Verifica se ouve requição GET
-        if(isset($_GET))
-        {
-            // armazena os dados get
-            $this->varGet = $_GET;
+            // Percorre os dados
+            foreach ($decoded_input as $dec => $value)
+            {
+                // Adiciona no array
+                $this->varPut[$dec] = $value;
+            }
         }
 
     } // End >> Fun::carregaDados()

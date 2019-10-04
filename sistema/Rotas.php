@@ -61,7 +61,7 @@ class Rotas
 
         // Configura a rota
         $rota = substr($rota, 0, 1) !== '/' ? '/' . $rota : $rota;
-        $rota = str_replace('{p}', '(\w+)', $rota);
+        $rota = str_replace('{p}', '(\S+)', $rota);
         $rota = str_replace('/', '\/', $rota);
         $rota = '/^' . $rota . '$/';
 
@@ -84,7 +84,7 @@ class Rotas
         {
             // Configura a rota
             $rota = substr($rota, 0, 1) !== '/' ? '/' . $rota : $rota;
-            $rota = str_replace('{p}', '(\w+)', $rota);
+            $rota = str_replace('{p}', '(\S+)', $rota);
             $rota = str_replace('/', '\/', $rota);
             $rota = '/^' . $rota . '$/';
         }
@@ -218,7 +218,7 @@ class Rotas
 
     private function uri()
     {
-        $self = isset($_SERVER['PHP_SELF']) ? str_replace('index.php/', '', $_SERVER['PHP_SELF']) : '';
+        $self = isset($_SERVER['PHP_SELF']) ? str_replace('inicio.php/', '', $_SERVER['PHP_SELF']) : '';
         $uri = isset($_SERVER['REQUEST_URI']) ? explode('?', $_SERVER['REQUEST_URI'])[0] : '';
 
         if ($self !== $uri) {

@@ -92,7 +92,7 @@ class Seguranca
         $Token = null;
         $novoToken  = null;
         $dataAtual = date("Y-m-d H:i:s");
-        $dataExpira = date("Y-m-d H:i:s",strtotime("+{$this->validadeToken} hours", date("Y-m-d H:i:s")));
+        $dataExpira = date("Y-m-d H:i:s",strtotime("+{$this->validadeToken} hours"));
 
         // Busca um token ativo do usuário
         $Token = $this->objModelToken->get(["id_usuario" => $idUser, "data_expira >" => $dataAtual]);
@@ -199,7 +199,7 @@ class Seguranca
             {
                 // Expload o Bearer
                 $bearer = explode("Bearer ",$value);
-                $bearer = $bearer[0];
+                $bearer = (isset($bearer[1])) ? $bearer[1] : null;
 
                 // Verifica se possui session
                 if(isset($_SESSION["token"]))

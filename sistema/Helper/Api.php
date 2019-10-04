@@ -15,31 +15,7 @@ namespace Sistema\Helper;
 
 class Api
 {
-
-    /**
-     * Método responsável por dar um debug na tela.
-     * ----------------------------------------------
-     * @param $item null|array
-     * @param $tipo string|null
-     */
-    public function debug($item = null, $tipo = "array")
-    {
-        if($tipo == "array")
-        {
-            echo "<pre>" . $item . "</pre>";
-        }
-        else
-        {
-            header("Content-type: application/json; charset=utf-8");
-            echo json_encode($item);
-        }
-
-        exit;
-    } // End >> Fun::debug()
-
-
-
-
+    
     /**
      * Método responsável por montar o padrão retorno
      * -----------------------------------------------
