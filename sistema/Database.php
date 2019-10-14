@@ -21,40 +21,20 @@ namespace Sistema;
 
 use \PDO;
 
-class Database
+class Database extends Conexao
 {
     // Variaveis Globais da Class
-    private $database;
     private $db;
     private $table;
 
     // Método Construtor
     function __construct()
     {
-        $database = null;
+        // Chama o método pai
+        parent::__construct();
 
-        // Configurações do Banco de dados
-        require("./app/config/database.php");
-
-        // Adiciona as configurações ao item privado
-        $this->database = $database;
-
-        try
-        {
-            // Realiza a conexão do banco
-            $this->db = new PDO('mysql:host='.$database["hostname"].';dbname='.$database["database"].'',
-                ''.$database["username"].'',
-                ''.$database["password"].'',
-                array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-
-
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->db->setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_EMPTY_STRING);
-        }
-        catch (\PDOException $e)
-        {
-            echo 'Error:'. $e->getMessage();
-        }
+        // Chama a conexão com o banco
+        $this->db = parent::getConexao();
 
     } // End >> Fun::__construct()
 
@@ -196,7 +176,7 @@ class Database
         }
         catch (\PDOException $e)
         {
-            $this->getError($e);
+            parent::getError($e);
         }
 
     } // END >> Fun::get()
@@ -313,7 +293,7 @@ class Database
                 }
                 catch (\PDOException $e)
                 {
-                    $this->getError($e);
+                    parent::getError($e);
                 }
             }
             else
@@ -386,7 +366,7 @@ class Database
             }
             catch (\PDOException $e)
             {
-                $this->getError($e);
+                parent::getError($e);
             }
         }
         else
@@ -478,7 +458,7 @@ class Database
             catch (\PDOException $e)
             {
                 // Retorna o erro
-                $this->getError($e);
+                parent::getError($e);
             }
         }
         else
@@ -542,46 +522,10 @@ class Database
         }
         catch (\PDOException $e)
         {
-            $this->getError($e);
+            parent::getError($e);
         }
 
     } // End >> fun::query()
 
-
-
-    /**
-     * ============================================
-     *              Métodos Privados
-     * ============================================
-     */
-
-
-    /**
-     * Método responsável por retornar os erros em uma
-     * tela diferenciada e bonita.
-     * -----------------------------------------------
-     * @param null $e
-     */
-    private function getError($e = null)
-    {
-        // Variaveis para a view
-        $dados = [
-            "titulo" => "Erro na Database",
-            "arquivo" => $e->getFile(),
-            "descricao" => $e->getMessage(),
-            "codigo" =>  $e->getCode(),
-            "linha" => $e->getLine(),
-        ];
-
-        // Extrai as variaveis
-        extract($dados,EXTR_OVERWRITE);
-
-        // Chama a view
-        include("./app/views/error/error.php");
-
-        // Mata o código
-        exit;
-
-    } // End >> fun::getError()
 
 } // END >> Class::Database

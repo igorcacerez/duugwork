@@ -9,6 +9,7 @@ date_default_timezone_set("America/Sao_Paulo");
 
 // Globais
 global $Rotas;
+global $Conexao;
 
 // Verifica se o composer está atualizado
 if(is_file("./vendor/autoload.php") == true)
