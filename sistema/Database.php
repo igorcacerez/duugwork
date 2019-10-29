@@ -514,7 +514,8 @@ class Database extends Conexao
             }
             else
             {
-                $query = $this->db->exec($sql);
+                $query = $this->db->prepare($sql);
+                $query->execute();
             }
 
             // Retorna a query
