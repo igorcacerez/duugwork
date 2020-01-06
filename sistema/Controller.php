@@ -30,7 +30,6 @@ class Controller
     } // End >> Fun::__construct()
 
 
-
     /**
      * Método responsável por dar um debug na tela.
      * ----------------------------------------------
@@ -87,34 +86,68 @@ class Controller
 
 
 
-
-    // Método responsável por formatar um numero na casa do milhar, deixando
-    // as siglas na frente: K,M,B,T,Q
-    public function formatNumero($numero = null)
+    /**
+     * Método responsável por configurar um array contendo as chaves de seo e smo
+     * ---------------------------------------------------------------------------
+     * @param null|array $seo
+     * @param null|array $smo
+     * ---------------------------------------------------------------------------
+     * @return array
+     */
+    public function getSEO($seo = null, $smo = null)
     {
-        // Variaveis
-        $cont = 0;
-        $array  = ["","K","M","B","T","Q"];
+        // Monta o array padrão
+        $dados = [
+            "seo" => [
+                "title" => SITE_NOME,
+                "description" => "A Momesso Indústria de Máquina é uma empresa com mais de 50 anos de mercado. 
+                                  Fundada em 18 de junho de 1962, sua atividade principal era a manutenção de máquinas 
+                                  de beneficiamento de algodão e óleo, junto com fabricação de tanques e braços de 
+                                  pulverizadores para agricultura sob encomenda, na região de Birigui, interior de São Paulo.",
+                "keywords" => "maquinas industriais, maquinas momesso, maquinas agricolas, Maquinário agrícola, Máquinas e Implementos Agrícolas",
+                "distribution" => "global",
+                "revisit-after" => "2 Days",
+                "robots" => "ALL",
+                "language" => "pt-br"
+            ],
+            "smo" => [
+                "url" => BASE_URL,
+                "title" => "Momesso | Indústria de Máquinas",
+                "site_name" => SITE_NOME,
+                "description" => "A Momesso Indústria de Máquina é uma empresa com mais de 50 anos de mercado. Fundada em 18 de junho de 1962, sua atividade principal era a manutenção de máquinas de beneficiamento de algodão e óleo, junto com fabricação de tanques e braços de pulverizadores para agricultura sob encomenda, na região de Birigui, interior de São Paulo.",
+                "image" => BASE_STORANGE.'assets/img/thumb-face.png',
+                "image_type" => "image/png",
+                "image_width" => "800",
+                "image_height" => "800"
+            ]
+        ];
 
-        // Divide o numero por mil
-        while ($numero >= 1000)
+        // Verifica se o array de seo é diferente de null
+        if($seo != null)
         {
-            $numero = $numero / 1000;
-            $cont++;
+            // Percorre o array
+            foreach ($seo as $item => $value)
+            {
+                // Realiza a modificação no dados
+                $dados["seo"][$item] = $value;
+            }
         }
 
-
-        // Verifica se o numero não é inteiro
-        if(is_int($numero) == false)
+        // Verifica se o array de smo é diferente de null
+        if($smo != null)
         {
-            // Deixa com duas casas decimais
-            $numero = number_format($numero,2,".");
+            // Percorre o array
+            foreach ($smo as $item => $value)
+            {
+                // Realiza a modificação no dados
+                $dados["smo"][$item] = $value;
+            }
         }
 
-        // Retorna o numero com a letra
-        return $numero . $array[$cont];
-    }
+        // Retorna o array pre-configurado
+        return $dados;
 
+    } // End >> fun::getSEO()
 
 
 
