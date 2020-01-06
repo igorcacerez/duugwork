@@ -19,8 +19,6 @@
 namespace Sistema;
 
 
-use \PDO;
-
 class Database extends Conexao
 {
     // Variaveis Globais da Class
@@ -100,23 +98,32 @@ class Database extends Conexao
                     // Pego o ultimo algarismo do item
                     $tipo = substr($item, -1);
 
-                    // Verifica se é um verificador
-                    if($tipo == "=" || $tipo == ">" || $tipo == "<")
+                    // Verifica se a busca é not null ou is null
+                    if(strtoupper($valor) == "IS NULL" || strtoupper($valor) == "NOT NULL")
                     {
                         // Adiciona a query sem o verificador
-                        $whereAux .= "{$item} :A{$cont}";
+                        $whereAux .= "{$item} {$valor}";
                     }
                     else
                     {
-                        // Adiciona a query com o verificador =
-                        $whereAux .= "{$item} = :A{$cont}";
+                        // Verifica se é um verificador
+                        if($tipo == "=" || $tipo == ">" || $tipo == "<")
+                        {
+                            // Adiciona a query sem o verificador
+                            $whereAux .= "{$item} :A{$cont}";
+                        }
+                        else
+                        {
+                            // Adiciona a query com o verificador =
+                            $whereAux .= "{$item} = :A{$cont}";
+                        }
+
+                        // Auxiliar para o bin
+                        $aux[":A" . $cont] = $valor;
+
+                        // Incrementa o cont
+                        $cont++;
                     }
-
-                    // Auxiliar para o bin
-                    $aux[":A" . $cont] = $valor;
-
-                    // Incrementa o cont
-                    $cont++;
 
                 } // End >> foreach($where as $item => $valor)
 
@@ -240,29 +247,38 @@ class Database extends Conexao
                         // Add o AND a query
                         $sql .= ($whereAux != null) ? " AND " : "";
 
-
                         // Pego o ultimo algarismo do item
                         $tipo = substr($item, -1);
 
-                        // Verifica se é um verificador
-                        if($tipo == "=" || $tipo == ">" || $tipo == "<")
+                        // Verifica se é IS NULL ou NOT NULL
+                        if(strtoupper($valor) == "IS NULL" || strtoupper($valor) == "NOT NULL")
                         {
                             // Adiciona a query sem o verificador
-                            $sql .= "{$item} :B{$cont}";
+                            $sql .= "{$item} {$valor}";
                         }
                         else
                         {
-                            // Adiciona a query com o verificador =
-                            $sql .= "{$item} = :B{$cont}";
+                            // Verifica se é um verificador
+                            if ($tipo == "=" || $tipo == ">" || $tipo == "<")
+                            {
+                                // Adiciona a query sem o verificador
+                                $sql .= "{$item} :B{$cont}";
+                            }
+                            else
+                            {
+                                // Adiciona a query com o verificador =
+                                $sql .= "{$item} = :B{$cont}";
+                            }
+
+                            // Auxiliar para o bin
+                            $aux[":B" . $cont] = $valor;
+
+                            // Incrementa o cont
+                            $whereAux = 1;
+                            $cont++;
                         }
 
-                        // Auxiliar para o bin
-                        $aux[":B" . $cont] = $valor;
-
-                        // Incrementa o cont
-                        $whereAux = 1;
-                        $cont++;
-                    }
+                    } // End >> foreach($where as $item => $valor)
                 }
                 else
                 {
@@ -410,23 +426,32 @@ class Database extends Conexao
                     // Pego o ultimo algarismo do item
                     $tipo = substr($item, -1);
 
-                    // Verifica se é um verificador
-                    if($tipo == "=" || $tipo == ">" || $tipo == "<")
+                    // Verifica se o valor é IS NULL ou NOT NULL
+                    if(strtoupper($value) == "IS NULL" || strtoupper($value) == "NOT NULL")
                     {
                         // Adiciona a query sem o verificador
-                        $whereAux .= "{$item} :A{$cont}";
+                        $whereAux .= "{$item} {$value}";
                     }
                     else
                     {
-                        // Adiciona a query com o verificador =
-                        $whereAux .= "{$item} = :A{$cont}";
+                        // Verifica se é um verificador
+                        if($tipo == "=" || $tipo == ">" || $tipo == "<")
+                        {
+                            // Adiciona a query sem o verificador
+                            $whereAux .= "{$item} :A{$cont}";
+                        }
+                        else
+                        {
+                            // Adiciona a query com o verificador =
+                            $whereAux .= "{$item} = :A{$cont}";
+                        }
+
+                        // Auxiliar para o bin
+                        $aux[":A" . $cont] = $value;
+
+                        // Incrementa o cont
+                        $cont++;
                     }
-
-                    // Auxiliar para o bin
-                    $aux[":A" . $cont] = $value;
-
-                    // Incrementa o cont
-                    $cont++;
                 }
 
                 $sql .= $whereAux;
