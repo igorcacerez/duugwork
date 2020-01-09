@@ -99,7 +99,7 @@ class Database extends Conexao
                     $tipo = substr($item, -1);
 
                     // Verifica se a busca é not null ou is null
-                    if(strtoupper($valor) == "IS NULL" || strtoupper($valor) == "NOT NULL")
+                    if(strtoupper($valor) == "IS NULL" || strtoupper($valor) == "IS NOT NULL")
                     {
                         // Adiciona a query sem o verificador
                         $whereAux .= "{$item} {$valor}";
@@ -251,7 +251,7 @@ class Database extends Conexao
                         $tipo = substr($item, -1);
 
                         // Verifica se é IS NULL ou NOT NULL
-                        if(strtoupper($valor) == "IS NULL" || strtoupper($valor) == "NOT NULL")
+                        if(strtoupper($valor) == "IS NULL" || strtoupper($valor) == "IS NOT NULL")
                         {
                             // Adiciona a query sem o verificador
                             $sql .= "{$item} {$valor}";
@@ -427,7 +427,7 @@ class Database extends Conexao
                     $tipo = substr($item, -1);
 
                     // Verifica se o valor é IS NULL ou NOT NULL
-                    if(strtoupper($value) == "IS NULL" || strtoupper($value) == "NOT NULL")
+                    if(strtoupper($value) == "IS NULL" || strtoupper($value) == "IS NOT NULL")
                     {
                         // Adiciona a query sem o verificador
                         $whereAux .= "{$item} {$value}";

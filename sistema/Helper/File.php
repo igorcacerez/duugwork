@@ -20,6 +20,16 @@ class File
     private $storange = null;
     private $name = null;
     private $maxSize = null;
+    private $extensaoPermitida = null;
+
+
+    /**
+     * @param array $ext
+     */
+    public function setExtensaoValida(array $ext)
+    {
+        $this->extensaoPermitida = $ext;
+    }
 
 
     /**
@@ -103,15 +113,100 @@ class File
 
 
     /**
-     * Método responsável por retornar o tamanho de um arquivo
-     * --------------------------------------------------------
-     * @param $file
-     * @return mixed
+     * Método responsável por retornar a extensão
+     * do arquivo.
+     * ----------------------------------------------
+     * @return array|mixed|string
      */
-    public function sizeFile($file)
+    private function getExtensao()
     {
-        return $file["size"];
-    } // End >> Fun::sizeFile()
+        // Arquivo
+        $arquivo = $this->file;
+
+        // Pega a extensão do arquivo
+        $ext = explode(".",basename($arquivo['name']));
+        $ext = end($ext);
+        $ext = strtolower($ext);
+
+        // Retorna a extensao
+        return $ext;
+    }
+
+
+    /**
+     * Método responsável por validar se o tamanho do
+     * arquivo é permitido.
+     * -----------------------------------------------
+     * @return bool
+     */
+    public function validaSize()
+    {
+        // Recupera o arquivo
+        $retorno = true;
+        $arquivo = $this->file;
+        $sizeMaximo = $this->maxSize;
+
+        // Verifica se informou o size maximo
+        if(!empty($sizeMaximo))
+        {
+            // Verifica se o arquivo possui é maior que o pemitido
+            if($arquivo["size"] > $sizeMaximo)
+            {
+                // Avisa que deu merda
+                $retorno = false;
+            }
+        }
+
+        // Retorno
+        return $retorno;
+
+    } // End >> Fun::validaSize()
+
+
+
+    /**
+     * Método responsável por validar se o arquivo possui
+     * um extensão permitida. Retornando true ou false.
+     * ----------------------------------------------------
+     * @return bool
+     */
+    public function validaExtensao()
+    {
+        // Variaveis
+        $ext = $this->getExtensao();
+        $permitido = $this->extensaoPermitida;
+        $retorno = false;
+
+        // Verifica se preencheu o permitido
+        if($permitido != null)
+        {
+            // Percorre o array
+            foreach ($permitido as $per)
+            {
+                // Deixa minusculo
+                $per = strtolower($per);
+
+                // Verifica se é igual
+                if($per == $ext)
+                {
+                    // Ta Ok!
+                    $retorno = true;
+
+                    // Sai do loop
+                    break;
+                }
+            }
+        }
+        else
+        {
+            // Ta ok!
+            $retorno = true;
+        } // Qualquer extensão é permitida.
+
+        // Retorno
+        return $retorno;
+
+    } // End >> fun::validaExtensao()
 
 
 
@@ -123,10 +218,10 @@ class File
     public function upload()
     {
         // Chama as variaveis
-        $nome = $this->getName();
+        $retorno = false;
+        $nome    = $this->getName();
         $arquivo = $this->getFile();
         $caminho = $this->getStorange();
-        $size = $this->getMaxSize();
 
         // Verifica se o nome foi adicionado
         if($nome == null)
@@ -136,37 +231,29 @@ class File
         }
 
         // Pega a extensão do arquivo
-        $ext = explode(".",basename($arquivo['name']));
-        $ext = end($ext);
-        $ext = strtolower($ext);
+        $ext = $this->getExtensao();
 
-
-        // verifica se o usuário passou limit de tamanho
-        if($size != null)
+        // Verifica se possui uma extensão permitida
+        if($this->validaExtensao())
         {
-            // Verifica se é maior que o tamanho permitido
-            if($arquivo["size"] > $size)
+            // Verifica se o arquivo possui um tamanho permitido
+            if($this->validaSize())
             {
-                return false;
+                // Seta o nome do arquivo
+                $nome .= "." . $ext;
+                $caminho .= "/" . $nome;
+
+                // faz o upload
+                if(move_uploaded_file($arquivo['tmp_name'], $caminho))
+                {
+                    // retorna o nome do arquivo
+                    $retorno = $nome;
+                }
             }
         }
 
-
-        // Seta o nome do arquivo
-        $nome .= "." . $ext;
-        $caminho .= "/" . $nome;
-
-
-        // faz o upload
-        if(move_uploaded_file($arquivo['tmp_name'], $caminho))
-        {
-            // retorna o nome do arquivo
-            return $nome;
-        }
-        else
-        {
-            return false;
-        }
+        // Return
+        return $retorno;
 
     } // END >> Fun::upload()
 
