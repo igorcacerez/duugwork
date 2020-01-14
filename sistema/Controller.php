@@ -40,7 +40,9 @@ class Controller
     {
         if($tipo == "array")
         {
-            echo "<pre>" . $item . "</pre>";
+            echo "<pre>";
+            echo print_r($item);
+            echo "</pre>";
         }
         else
         {

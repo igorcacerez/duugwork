@@ -6,5 +6,8 @@
             "Controller\\": "app/controllers/",
             "Helper\\": "app/helpers/"
         }
+    },
+    "require": {
+        "phpmailer/phpmailer": "^6.1"
     }
 }
