@@ -144,11 +144,8 @@ class Controller
         $dados = [
             "seo" => [
                 "title" => SITE_NOME,
-                "description" => "A Momesso Indústria de Máquina é uma empresa com mais de 50 anos de mercado. 
-                                  Fundada em 18 de junho de 1962, sua atividade principal era a manutenção de máquinas 
-                                  de beneficiamento de algodão e óleo, junto com fabricação de tanques e braços de 
-                                  pulverizadores para agricultura sob encomenda, na região de Birigui, interior de São Paulo.",
-                "keywords" => "maquinas industriais, maquinas momesso, maquinas agricolas, Maquinário agrícola, Máquinas e Implementos Agrícolas",
+                "description" => "DESCRIÇÃO",
+                "keywords" => "PALAVRAS CHAVE",
                 "distribution" => "global",
                 "revisit-after" => "2 Days",
                 "robots" => "ALL",
@@ -156,9 +153,9 @@ class Controller
             ],
             "smo" => [
                 "url" => BASE_URL,
-                "title" => "Momesso | Indústria de Máquinas",
+                "title" => "TITULO",
                 "site_name" => SITE_NOME,
-                "description" => "A Momesso Indústria de Máquina é uma empresa com mais de 50 anos de mercado. Fundada em 18 de junho de 1962, sua atividade principal era a manutenção de máquinas de beneficiamento de algodão e óleo, junto com fabricação de tanques e braços de pulverizadores para agricultura sob encomenda, na região de Birigui, interior de São Paulo.",
+                "description" => "DESCRIÇÃO",
                 "image" => BASE_STORANGE.'assets/img/thumb-face.png',
                 "image_type" => "image/png",
                 "image_width" => "800",
