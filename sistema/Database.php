@@ -62,13 +62,17 @@ class Database extends Conexao
      * Método responsável por execultar uma busca no banco de dados
      * e retornar os dados encontrados.
      * --------------------------------------------------------------
-     *
-     * @param null $where
+     * @author igorcacerez
+     * @version 2.0 - 21/02/2020 (Ultima atualização)
+     * --------------------------------------------------------------
+     * @param null|array $where
      * @param null $order
      * @param null $limit
+     * @param string $campos
+     * @param null $groupBy
      * @return bool|false|\PDOStatement
      */
-    public function get($where = null, $order = null, $limit = null)
+    public function get($where = null, $order = null, $limit = null, $campos = "*",  $groupBy = null)
     {
         // Variaveis
         $aux = null;
@@ -79,7 +83,7 @@ class Database extends Conexao
         if($where == null)
         {
             // Retorna tudo
-            $sql = "SELECT * FROM " . $this->table;
+            $sql = "SELECT {$campos} FROM " . $this->table;
         }
         else
         {
@@ -107,15 +111,39 @@ class Database extends Conexao
                     else
                     {
                         // Verifica se é um verificador
-                        if($tipo == "=" || $tipo == ">" || $tipo == "<")
+                        if($tipo == "=" || $tipo == ">" || $tipo == "<" || $tipo == "!")
                         {
                             // Adiciona a query sem o verificador
                             $whereAux .= "{$item} :A{$cont}";
                         }
                         else
                         {
-                            // Adiciona a query com o verificador =
-                            $whereAux .= "{$item} = :A{$cont}";
+                            // Pega apenas os 3 primeiros caracteres do valro
+                            $tipo = substr($valor, 0, 3);
+
+                            // Verifica se é IN(
+                            if($tipo == "IN(")
+                            {
+                                // Adiciona a query sem o verificador
+                                $whereAux .= "{$item} {$valor}";
+                            }
+                            else
+                            {
+                                // Pega apenas os 3 primeiros digitos do item
+                                $tipo = substr($item, 0, 3);
+
+                                // Verifica se é um OR
+                                if($tipo == "OR ")
+                                {
+                                    // Adiciona a query sem o verificador
+                                    $whereAux .= "{$item} :A{$cont}";
+                                }
+                                else
+                                {
+                                    // Adiciona a query com o verificador =
+                                    $whereAux .= "{$item} = :A{$cont}";
+                                }
+                            } // End >> else::($tipo == "IN(")
                         }
 
                         // Auxiliar para o bin
@@ -136,6 +164,14 @@ class Database extends Conexao
                 return false;
             }
         }
+
+        // Verifica se possui ordem
+        if($groupBy != null)
+        {
+            // Adiciona o SQL
+            $sql .= " GROUP BY " . $groupBy;
+        }
+
 
         // Verifica se possui ordem
         if($order != null)
@@ -194,7 +230,8 @@ class Database extends Conexao
      * Método responsável por editar os dados de um registro
      * no banco de dados.
      * ------------------------------------------------------
-     *
+     * @version 2.0 - 21/20/2020 (Ultima Atualização)
+     * ------------------------------------------------------
      * @param null $altera
      * @param null $where
      * @return bool
@@ -259,15 +296,38 @@ class Database extends Conexao
                         else
                         {
                             // Verifica se é um verificador
-                            if ($tipo == "=" || $tipo == ">" || $tipo == "<")
+                            if ($tipo == "=" || $tipo == ">" || $tipo == "<" || $tipo == "!")
                             {
                                 // Adiciona a query sem o verificador
                                 $sql .= "{$item} :B{$cont}";
                             }
-                            else
-                            {
-                                // Adiciona a query com o verificador =
-                                $sql .= "{$item} = :B{$cont}";
+                            else {
+                                // Pega apenas os 3 primeiros caracteres do valro
+                                $tipo = substr($valor, 0, 3);
+
+                                // Verifica se é igual a IN(
+                                if ($tipo == "IN(")
+                                {
+                                    // Adiciona a query sem o verificador
+                                    $sql .= "{$item} {$valor}";
+                                }
+                                else
+                                {
+                                    // Pega apenas os 3 primeiros digitos do item
+                                    $tipo = substr($item, 0, 3);
+
+                                    // Verifica se é um OR
+                                    if($tipo == "OR ")
+                                    {
+                                        // Adiciona a query sem o verificador
+                                        $sql .= "{$item} :B{$cont}";
+                                    }
+                                    else
+                                    {
+                                        // Adiciona a query com o verificador =
+                                        $sql .= "{$item} = :B{$cont}";
+                                    }
+                                }
                             }
 
                             // Auxiliar para o bin
@@ -398,8 +458,9 @@ class Database extends Conexao
      * Método responsável por deletar um registro do banco de dados.
      * E retornar o item deletado.
      * -----------------------------------------------------------------
-     *
-     * @param null $where
+     * @version 2.0 - 21/20/2020 (Ultima Atualização)
+     * -----------------------------------------------------------------
+     * @param null|array $where
      * @return bool|\PDOStatement
      */
     public function delete($where = null)
@@ -435,15 +496,39 @@ class Database extends Conexao
                     else
                     {
                         // Verifica se é um verificador
-                        if($tipo == "=" || $tipo == ">" || $tipo == "<")
+                        if($tipo == "=" || $tipo == ">" || $tipo == "<" || $tipo == "!")
                         {
                             // Adiciona a query sem o verificador
                             $whereAux .= "{$item} :A{$cont}";
                         }
                         else
                         {
-                            // Adiciona a query com o verificador =
-                            $whereAux .= "{$item} = :A{$cont}";
+                            // Pega apenas os 3 primeiros caracteres do valro
+                            $tipo = substr($value, 0, 3);
+
+                            // Verifica se é IN(
+                            if($tipo == "IN(")
+                            {
+                                // Adiciona a query sem o verificador
+                                $whereAux .= "{$item} {$value}";
+                            }
+                            else
+                            {
+                                // Pega apenas os 3 primeiros digitos do item
+                                $tipo = substr($item, 0, 3);
+
+                                // Verifica se é um OR
+                                if($tipo == "OR ")
+                                {
+                                    // Adiciona a query sem o verificador
+                                    $whereAux .= "{$item} :A{$cont}";
+                                }
+                                else
+                                {
+                                    // Adiciona a query com o verificador =
+                                    $whereAux .= "{$item} = :A{$cont}";
+                                }
+                            } // End >> else::($tipo == "IN(")
                         }
 
                         // Auxiliar para o bin
