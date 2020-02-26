@@ -103,8 +103,19 @@ class Database extends Conexao
                 // Percorre o array
                 foreach ($where as $item => $valor)
                 {
-                    // Add o AND a query
-                    $whereAux .= ($whereAux != null) ? " AND " : "";
+                    // Pega apenas os 3 primeiros digitos do item
+                    $tipo = substr($item, 0, 3);
+
+                    if($tipo != "OR ")
+                    {
+                        // Add o AND a query
+                        $whereAux .= ($whereAux != null) ? " AND " : "";
+                    }
+                    else
+                    {
+                        // Adiciona o espaço
+                        $item = " " . $item;
+                    }
 
                     // Pego o ultimo algarismo do item
                     $tipo = substr($item, -1);
@@ -136,20 +147,9 @@ class Database extends Conexao
                             }
                             else
                             {
-                                // Pega apenas os 3 primeiros digitos do item
-                                $tipo = substr($item, 0, 3);
+                                // Adiciona a query com o verificador =
+                                $whereAux .= "{$item} = :A{$cont}";
 
-                                // Verifica se é um OR
-                                if($tipo == "OR ")
-                                {
-                                    // Adiciona a query sem o verificador
-                                    $whereAux .= "{$item} :A{$cont}";
-                                }
-                                else
-                                {
-                                    // Adiciona a query com o verificador =
-                                    $whereAux .= "{$item} = :A{$cont}";
-                                }
                             } // End >> else::($tipo == "IN(")
                         }
 
@@ -288,8 +288,19 @@ class Database extends Conexao
                     // Dados do where
                     foreach ($where as $item => $valor)
                     {
-                        // Add o AND a query
-                        $sql .= ($whereAux != null) ? " AND " : "";
+                        // Pega apenas os 3 primeiros digitos do item
+                        $tipo = substr($item, 0, 3);
+
+                        if($tipo != "OR ")
+                        {
+                            // Add o AND a query
+                            $sql .= ($whereAux != null) ? " AND " : "";
+                        }
+                        else
+                        {
+                            // Adiciona o espaço
+                            $item = " " . $item;
+                        }
 
                         // Pego o ultimo algarismo do item
                         $tipo = substr($item, -1);
@@ -320,20 +331,8 @@ class Database extends Conexao
                                 }
                                 else
                                 {
-                                    // Pega apenas os 3 primeiros digitos do item
-                                    $tipo = substr($item, 0, 3);
-
-                                    // Verifica se é um OR
-                                    if($tipo == "OR ")
-                                    {
-                                        // Adiciona a query sem o verificador
-                                        $sql .= "{$item} :B{$cont}";
-                                    }
-                                    else
-                                    {
-                                        // Adiciona a query com o verificador =
-                                        $sql .= "{$item} = :B{$cont}";
-                                    }
+                                    // Adiciona a query com o verificador =
+                                    $sql .= "{$item} = :B{$cont}";
                                 }
                             }
 
@@ -488,8 +487,19 @@ class Database extends Conexao
                 // Percorre o where
                 foreach ($where as $item => $value)
                 {
-                    // Add o AND a query
-                    $whereAux .= ($whereAux != null) ? " AND " : "";
+                    // Pega apenas os 3 primeiros digitos do item
+                    $tipo = substr($item, 0, 3);
+
+                    if($tipo != "OR ")
+                    {
+                        // Add o AND a query
+                        $whereAux .= ($whereAux != null) ? " AND " : "";
+                    }
+                    else
+                    {
+                        // Adiciona o espaço
+                        $item = " " . $item;
+                    }
 
                     // Pego o ultimo algarismo do item
                     $tipo = substr($item, -1);
@@ -521,20 +531,9 @@ class Database extends Conexao
                             }
                             else
                             {
-                                // Pega apenas os 3 primeiros digitos do item
-                                $tipo = substr($item, 0, 3);
+                                // Adiciona a query com o verificador =
+                                $whereAux .= "{$item} = :A{$cont}";
 
-                                // Verifica se é um OR
-                                if($tipo == "OR ")
-                                {
-                                    // Adiciona a query sem o verificador
-                                    $whereAux .= "{$item} :A{$cont}";
-                                }
-                                else
-                                {
-                                    // Adiciona a query com o verificador =
-                                    $whereAux .= "{$item} = :A{$cont}";
-                                }
                             } // End >> else::($tipo == "IN(")
                         }
 
