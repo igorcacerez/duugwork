@@ -79,6 +79,13 @@ class Database extends Conexao
         $whereAux = null;
         $cont = 1;
 
+        // Verifica se NÃO informou o campos
+        if(!empty($campos))
+        {
+            // Seta como todos
+            $campos = "*";
+        }
+
         // verifica se possui where
         if($where == null)
         {
