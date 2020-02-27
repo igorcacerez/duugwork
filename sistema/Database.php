@@ -80,7 +80,7 @@ class Database extends Conexao
         $cont = 1;
 
         // Verifica se NÃO informou o campos
-        if(!empty($campos))
+        if(empty($campos))
         {
             // Seta como todos
             $campos = "*";
@@ -98,7 +98,7 @@ class Database extends Conexao
             if(is_array($where))
             {
                 // Monta a query
-                $sql = "SELECT * FROM " . $this->table . " WHERE ";
+                $sql = "SELECT {$campos} FROM " . $this->table . " WHERE ";
 
                 // Percorre o array
                 foreach ($where as $item => $valor)
