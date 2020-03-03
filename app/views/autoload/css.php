@@ -3,7 +3,7 @@
         <?php if(!empty($item["css"])): ?>
 
             <?php foreach ($item["css"] as $cssP): ?>
-                <script rel="stylesheet" src='<?= BASE_URL; ?>assets/plugins/<?= $value ?>/<?= $cssP ?>.js'></script>
+                <link rel="stylesheet" src='<?= BASE_URL; ?>assets/plugins/<?= $value ?>/<?= $cssP ?>.js' />
             <?php endforeach; ?>
 
         <?php endif; ?>
@@ -19,3 +19,7 @@
     <?php endforeach; ?>
 
 <?php endif; ?>
+
+
+<link rel="stylesheet" src='<?= BASE_URL; ?>assets/custom/css/estilo.css' />
+<link rel="stylesheet" src='<?= BASE_URL; ?>assets/custom/css/responsivo.css' />

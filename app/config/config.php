@@ -12,17 +12,17 @@ defined("OPEN_SESSION") OR define('OPEN_SESSION', false);
 
 
 $pluginsAutoLoad = [
-    "bootstrap-grid" => [
-        "js" => null,
-        "css" => ["bootstrap-grid.min"]
-    ],
-//    "bootstrap" => [
-//        "js" => ["js/bootstrap.min","js/popper.min"],
-//        "css" => ["css/bootstrap.min"]
-//    ],
     "jquery" => [
         "js" => ["jquery-3.4.1.min"],
         "css" => null
+    ],
+//    "bootstrap-grid" => [
+//        "js" => null,
+//        "css" => ["bootstrap-grid.min"]
+//    ],
+    "bootstrap" => [
+        "js" => ["js/bootstrap.min","js/popper.min"],
+        "css" => ["css/bootstrap.min"]
     ],
     "sweetalert" => [
         "js" => ["sweetalert2.all"],
