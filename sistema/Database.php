@@ -133,6 +133,12 @@ class Database extends Conexao
                         {
                             // Adiciona a query sem o verificador
                             $whereAux .= "{$item} :A{$cont}";
+
+                            // Auxiliar para o bin
+                            $aux[":A" . $cont] = $valor;
+
+                            // Incrementa o cont
+                            $cont++;
                         }
                         else
                         {
@@ -150,14 +156,14 @@ class Database extends Conexao
                                 // Adiciona a query com o verificador =
                                 $whereAux .= "{$item} = :A{$cont}";
 
+                                // Auxiliar para o bin
+                                $aux[":A" . $cont] = $valor;
+
+                                // Incrementa o cont
+                                $cont++;
+
                             } // End >> else::($tipo == "IN(")
                         }
-
-                        // Auxiliar para o bin
-                        $aux[":A" . $cont] = $valor;
-
-                        // Incrementa o cont
-                        $cont++;
                     }
 
                 } // End >> foreach($where as $item => $valor)
@@ -318,6 +324,13 @@ class Database extends Conexao
                             {
                                 // Adiciona a query sem o verificador
                                 $sql .= "{$item} :B{$cont}";
+
+                                // Auxiliar para o bin
+                                $aux[":B" . $cont] = $valor;
+
+                                // Incrementa o cont
+                                $whereAux = 1;
+                                $cont++;
                             }
                             else {
                                 // Pega apenas os 3 primeiros caracteres do valro
@@ -333,15 +346,15 @@ class Database extends Conexao
                                 {
                                     // Adiciona a query com o verificador =
                                     $sql .= "{$item} = :B{$cont}";
+
+                                    // Auxiliar para o bin
+                                    $aux[":B" . $cont] = $valor;
+
+                                    // Incrementa o cont
+                                    $whereAux = 1;
+                                    $cont++;
                                 }
                             }
-
-                            // Auxiliar para o bin
-                            $aux[":B" . $cont] = $valor;
-
-                            // Incrementa o cont
-                            $whereAux = 1;
-                            $cont++;
                         }
 
                     } // End >> foreach($where as $item => $valor)
