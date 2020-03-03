@@ -74,6 +74,9 @@ class Controller
             }
         }
 
+        // Array de plugins padrão
+        $this->vars["pluginsAutoLoad"] = unserialize(PLGUINS_AUTOLOAD);
+
         // Verifica se possui variaveis
         if($this->vars != null)
         {
