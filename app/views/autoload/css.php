@@ -2,8 +2,8 @@
     <?php foreach ($pluginsAutoLoad as $value => $item): ?>
         <?php if(!empty($item["css"])): ?>
 
-            <?php foreach ($item["css"] as $css): ?>
-                <script rel="stylesheet" src='<?= BASE_URL; ?>assets/plugins/<?= $value ?>/<?= $css ?>.js'></script>
+            <?php foreach ($item["css"] as $cssP): ?>
+                <script rel="stylesheet" src='<?= BASE_URL; ?>assets/plugins/<?= $value ?>/<?= $cssP ?>.js'></script>
             <?php endforeach; ?>
 
         <?php endif; ?>
@@ -11,7 +11,7 @@
 <?php endif; ?>
 
 
-<!-- AutoLoad de CSS -->
+    <!-- AutoLoad de CSS -->
 <?php if(!empty($css)): ?>
 
     <?php foreach ($css as $c): ?>

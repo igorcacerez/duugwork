@@ -2,8 +2,8 @@
     <?php foreach ($pluginsAutoLoad as $value => $item): ?>
         <?php if(!empty($item["js"])): ?>
 
-            <?php foreach ($item["js"] as $j): ?>
-                <script src='<?= BASE_URL; ?>assets/plugins/<?= $value ?>/<?= $j ?>.js'></script>
+            <?php foreach ($item["js"] as $jP): ?>
+                <script src='<?= BASE_URL; ?>assets/plugins/<?= $value ?>/<?= $jP ?>.js'></script>
             <?php endforeach; ?>
 
         <?php endif; ?>
@@ -11,7 +11,7 @@
 <?php endif; ?>
 
 
-<!-- AutoLoad de JS -->
+    <!-- AutoLoad de JS -->
 <?php if(!empty($js)): ?>
 
     <!-- Plugins -->

@@ -33,12 +33,12 @@ $pluginsAutoLoad = [
         "css" => ["owl.carousel.min"]
     ],
     "mascara" => [
-        "js" => "mascara",
+        "js" => ["mascara"],
         "css" => null,
     ],
     "dropify" => [
-        "js" => "js/dropify.min",
-        "css" => "css/dropify.min",
+        "js" => ["js/dropify.min"],
+        "css" => ["css/dropify.min"],
     ]
 ];
 
