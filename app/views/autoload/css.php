@@ -3,7 +3,7 @@
         <?php if(!empty($item["css"])): ?>
 
             <?php foreach ($item["css"] as $cssP): ?>
-                <link rel="stylesheet" src='<?= BASE_URL; ?>assets/plugins/<?= $value ?>/<?= $cssP ?>.css' />
+                <link rel="stylesheet" href="<?= BASE_URL; ?>assets/plugins/<?= $value ?>/<?= $cssP ?>.css" />
             <?php endforeach; ?>
 
         <?php endif; ?>
@@ -11,15 +11,15 @@
 <?php endif; ?>
 
 
-    <!-- AutoLoad de CSS -->
+<!-- AutoLoad de CSS -->
 <?php if(!empty($css)): ?>
 
     <?php foreach ($css as $c): ?>
-        <link rel="stylesheet" src='<?= BASE_URL; ?>assets/<?= $c ?>.css' />
+        <link rel="stylesheet" href="<?= BASE_URL; ?>assets/<?= $c ?>.css" />
     <?php endforeach; ?>
 
 <?php endif; ?>
 
 
-<link rel="stylesheet" src='<?= BASE_URL; ?>assets/custom/css/estilo.css' />
-<link rel="stylesheet" src='<?= BASE_URL; ?>assets/custom/css/responsivo.css' />
+<link rel="stylesheet" href="<?= BASE_URL; ?>assets/custom/css/estilo.css" />
+<link rel="stylesheet" href="<?= BASE_URL; ?>assets/custom/css/responsivo.css" />
