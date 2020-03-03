@@ -26,13 +26,23 @@ $(".maskCel").mask("(99) 99999-9999");
  * @param dados
  * @return {Promise<any>}
  */
-function enviaApi(tipo, url, dados = null)
+function enviaApi(tipo, url, dados = null, token = null)
 {
-    return new Promise(function (resolve) {
+    return new Promise(function (resolve, reject) {
+
+        // Variaveis
+        var header = {};
+
+        // Verifica se informou o token
+        if(token != null)
+        {
+            header.Token = 'Bearer ' + token;
+        }
 
         // Realiza a requisição
         $.ajax({
             url: url,
+            headers: header,
             type: tipo,
             dataType: "json",
             data: dados,
@@ -45,7 +55,7 @@ function enviaApi(tipo, url, dados = null)
                 if(data.tipo === true)
                 {
                     // Retorna o resultado
-                   resolve(data)
+                    resolve(data)
                 }
                 else
                 {
@@ -62,6 +72,9 @@ function enviaApi(tipo, url, dados = null)
                             title: 'Oops...',
                             text: data.mensagem
                         });
+
+                        reject(true);
+
                     } // Erro o token acabou
 
                 } // Ocorreu algum erro
