@@ -22,6 +22,7 @@ if(is_file("./vendor/autoload.php") == true)
 
     // Requires de configurações do sistema
     require("app/config/config.php");
+    require("app/config/autoload.php");
     require("app/config/constantes.php");
     require("app/config/rotas.php");
 
