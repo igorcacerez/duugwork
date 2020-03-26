@@ -39,6 +39,25 @@ function enviaApi(tipo, url, dados = null, token = null)
             header.Token = 'Bearer ' + token;
         }
 
+        // Verifica se o tipo é PUT
+        if(tipo === "PUT")
+        {
+            // Cria uma array auxiliar
+            var aux = dados;
+            var envia;
+
+            // Limpa o dados
+            dados = null;
+
+            // Repassa os dados do form para o objeto.
+            aux.forEach(function(value, key){
+                envia[key] = value;
+            });
+
+            // Passa o json
+            dados = JSON.stringify(envia);
+        }
+
         // Realiza a requisição
         $.ajax({
             url: url,
