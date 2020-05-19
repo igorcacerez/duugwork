@@ -130,11 +130,15 @@ class Input
             // Pega os dados json put
             $decoded_input = json_decode(file_get_contents("php://input"), true);
 
-            // Percorre os dados
-            foreach ($decoded_input as $dec => $value)
+            // Verifica se encontrou algo
+            if(!empty($decoded_input))
             {
-                // Adiciona no array
-                $this->varPut[$dec] = $value;
+                // Percorre os dados
+                foreach ($decoded_input as $dec => $value)
+                {
+                    // Adiciona no array
+                    $this->varPut[$dec] = $value;
+                }
             }
         }
 

@@ -146,7 +146,7 @@ class Database extends Conexao
                             $tipo = substr($valor, 0, 3);
 
                             // Verifica se é IN(
-                            if($tipo == "IN(")
+                            if($tipo == "IN(" || $tipo == "NOT")
                             {
                                 // Adiciona a query sem o verificador
                                 $whereAux .= "{$item} {$valor}";
@@ -273,12 +273,21 @@ class Database extends Conexao
                     // Verifica se não é o primeiro
                     $sql .= ($aux != null) ? ", " : "";
 
-                    // Cria o sql
-                    $sql .= "{$item} = :A{$cont}";
+                    // Verifica se o valor é nullo
+                    if(strtoupper($valor) == "NULL" || $valor == NULL || $valor == "")
+                    {
+                        // Cria o sql
+                        $sql .= "{$item} = NULL";
+                    }
+                    else
+                    {
+                        // Cria o sql
+                        $sql .= "{$item} = :A{$cont}";
 
-                    // itens do bin
-                    $aux[":A" . $cont] = $valor;
-                    $cont++;
+                        // itens do bin
+                        $aux[":A" . $cont] = $valor;
+                        $cont++;
+                    }
                 }
 
 
@@ -571,7 +580,7 @@ class Database extends Conexao
                 }
 
                 // Execulta o SQL
-                $query->execute();
+                $query = $query->execute();
 
                 // Retorna a execulção
                 return $query;

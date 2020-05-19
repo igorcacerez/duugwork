@@ -17,13 +17,14 @@ namespace Sistema\Helper;
 
 use Model\Token;
 use Model\Usuario;
+use Sistema\Controller;
 
 class Seguranca
 {
     // Variaveis globais da class
     private $headerName = "Token"; # Nome do campo a ser validado no header
     private $key = "dflkf-fkljsn-7213665-dhja"; #chave para criptografia dos tokens
-    private $validadeToken = 5; #tempo de validade dos tokens em horas
+    private $validadeToken = 24; #tempo de validade dos tokens em horas
 
     // Objetos da Classe
     private $objModelToken = null;
@@ -37,7 +38,7 @@ class Seguranca
         // Instancia o model
         $this->objModelToken = new Token();
         $this->objModelUsuario = new Usuario();
-        $this->objHelperApi = new Api();
+        $this->objController = new Controller();
 
     } // End >> Fun::__construct()
 
@@ -75,7 +76,7 @@ class Seguranca
 
 
 
-    
+
     /**
      * Método responsável por gerar um token para um determinado usuário
      * ou retornar um token ativo para o mesmo.
@@ -135,14 +136,14 @@ class Seguranca
 
     } // End >> Fun::getToken()
 
-    
-    
+
+
 
     /**
      * Método responsável por retornar o usuário atravez de um token
      * de login.
      * ---------------------------------------------------------------
-     * 
+     *
      * @param null $token
      * @return bool|mixed|null
      */
@@ -249,7 +250,7 @@ class Seguranca
                     else
                     {
                         // Avisa que o token expirou
-                        $this->objHelperApi->view(["mensagem" => "Token informado expirou", "code" => 401]);
+                        $this->objController->api(["mensagem" => "Token informado expirou", "code" => 401]);
                     }
                 }
                 else

@@ -1,8 +1,9 @@
-import Session from "./main/Session.js"
+﻿import Session from "./main/Session.js"
 
 // Dados importantes
 var Dados = {
-    "url": ""
+    "url": "http://localhost/git/",
+    "urlApi": "http://localhost/git/"
 }
 
 
@@ -13,6 +14,9 @@ $(".maskCPF").mask("999.999.999-99");
 $(".maskCNPJ").mask("99.999.999/9999-99");
 $(".maskTel").mask("(99) 9999-9999");
 $(".maskCel").mask("(99) 99999-9999");
+$(".maskPeso").mask("#.00", {reverse: true});
+$(".maskNumero").mask("#", {reverse: true});
+$(".maskCartao").mask("# ###0", {reverse: true});
 
 
 /**
@@ -26,7 +30,7 @@ $(".maskCel").mask("(99) 99999-9999");
  * @param dados
  * @return {Promise<any>}
  */
-function enviaApi(tipo, url, dados = null, token = null)
+function enviaApi(tipo, url, dados = null, token = null, alertTipy = "swal")
 {
     return new Promise(function (resolve, reject) {
 
@@ -39,23 +43,31 @@ function enviaApi(tipo, url, dados = null, token = null)
             header.Token = 'Bearer ' + token;
         }
 
+
         // Verifica se o tipo é PUT
         if(tipo === "PUT")
         {
-            // Cria uma array auxiliar
-            var aux = dados;
-            var envia;
+            if(dados !== null && dados !== "" && dados !== undefined)
+            {
+                // Objeto de conversao
+                var object = {};
 
-            // Limpa o dados
-            dados = null;
+                // Percorre os dados
+                dados.forEach((value, key) => {
+                    // Reflect.has in favor of: object.hasOwnProperty(key)
+                    if(!Reflect.has(object, key)){
+                        object[key] = value;
+                        return;
+                    }
+                    if(!Array.isArray(object[key])){
+                        object[key] = [object[key]];
+                    }
+                    object[key].push(value);
+                });
 
-            // Repassa os dados do form para o objeto.
-            aux.forEach(function(value, key){
-                envia[key] = value;
-            });
-
-            // Passa o json
-            dados = JSON.stringify(envia);
+                // Converte o objeto em JSON
+                dados = JSON.stringify(object);
+            }
         }
 
         // Realiza a requisição
@@ -86,13 +98,20 @@ function enviaApi(tipo, url, dados = null, token = null)
                     }
                     else
                     {
-                        Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: data.mensagem
-                        });
+                        if(alertTipy === "swal")
+                        {
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: data.mensagem
+                            });
+                        }
+                        else
+                        {
+                            alertify.error(data.mensagem);
+                        }
 
-                        reject(true);
+                        reject(data);
 
                     } // Erro o token acabou
 
@@ -310,6 +329,22 @@ function limparString(string) {
 } // End >> fun::limparString()
 
 
+/**
+ * Método responsável por limpar todos os campos de
+ * um determinado formulário.
+ * --------------------------------------------------
+ * @param form
+ */
+function limpaFormulario(form)
+{
+    // Percorre os campos do form
+    $(form).each(function(){
+        // Limpa o campo
+        this.reset();
+    });
+}
+
+
 // Retorno para os demais arquivos
 export default (() => {
 
@@ -322,7 +357,8 @@ export default (() => {
         setSuccess: success,
         calculaData: calculaData,
         formatMoney: formatMoney,
-        limparString: limparString
+        limparString: limparString,
+        limparFormulario: limpaFormulario
     };
 
 })();
