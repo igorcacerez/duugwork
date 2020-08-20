@@ -209,7 +209,34 @@ class File
     } // End >> fun::validaExtensao()
 
 
+    /**
+     * Método responsável por comprimir uma deteminada imagem.
+     * ----------------------------------------------------------------
+     * @param $source_path - Imagem atual
+     * @param $destination_path - Imagem a ser gerada
+     * @param $quality - qualidade em porcentagem
+     */
+    public function compressImage($source_path, $destination_path, $quality = 50)
+    {
+        // Pega as informações da imagem
+        $info = getimagesize($source_path);
 
+        // Verifica a extensao
+        if($info['mime'] == 'image/jpeg')
+        {
+            $image = imagecreatefromjpeg($source_path);
+        }
+        elseif($info['mime'] == 'image/png')
+        {
+            $image = imagecreatefrompng($source_path);
+        }
+
+        // Cria a imagem
+        imagejpeg($image, $destination_path, $quality);
+
+    } // End >> fun::compressImage()
+    
+    
     /**
      * Método responsável por processar o upload de arquivo
      * -------------------------------------------------------
