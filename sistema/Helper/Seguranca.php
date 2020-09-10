@@ -24,7 +24,7 @@ class Seguranca
     // Variaveis globais da class
     private $headerName = "Token"; # Nome do campo a ser validado no header
     private $key = "dflkf-fkljsn-7213665-dhja"; #chave para criptografia dos tokens
-    private $validadeToken = 24; #tempo de validade dos tokens em horas
+    private $validadeToken = 5; #tempo de validade dos tokens em horas
 
     // Objetos da Classe
     private $objModelToken = null;

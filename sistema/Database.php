@@ -146,7 +146,7 @@ class Database extends Conexao
                             $tipo = substr($valor, 0, 3);
 
                             // Verifica se é IN(
-                            if($tipo == "IN(" || $tipo == "NOT")
+                            if($tipo == "IN(")
                             {
                                 // Adiciona a query sem o verificador
                                 $whereAux .= "{$item} {$valor}";
@@ -273,21 +273,12 @@ class Database extends Conexao
                     // Verifica se não é o primeiro
                     $sql .= ($aux != null) ? ", " : "";
 
-                    // Verifica se o valor é nullo
-                    if(strtoupper($valor) == "NULL" || $valor == NULL || $valor == "")
-                    {
-                        // Cria o sql
-                        $sql .= "{$item} = NULL";
-                    }
-                    else
-                    {
-                        // Cria o sql
-                        $sql .= "{$item} = :A{$cont}";
+                    // Cria o sql
+                    $sql .= "{$item} = :A{$cont}";
 
-                        // itens do bin
-                        $aux[":A" . $cont] = $valor;
-                        $cont++;
-                    }
+                    // itens do bin
+                    $aux[":A" . $cont] = $valor;
+                    $cont++;
                 }
 
 
@@ -333,7 +324,8 @@ class Database extends Conexao
                                 // Adiciona a query sem o verificador
                                 $sql .= "{$item} :B{$cont}";
                             }
-                            else {
+                            else
+                            {
                                 // Pega apenas os 3 primeiros caracteres do valro
                                 $tipo = substr($valor, 0, 3);
 
@@ -580,7 +572,7 @@ class Database extends Conexao
                 }
 
                 // Execulta o SQL
-                $query = $query->execute();
+                $query->execute();
 
                 // Retorna a execulção
                 return $query;

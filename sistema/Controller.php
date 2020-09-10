@@ -84,8 +84,12 @@ class Controller
         }
 
 
-        //Exibe a View
-        include("./app/views/" . $view . ".php");
+        // Verifica se possui a view
+        if(!empty($view))
+        {
+            // Exibe a View
+            include("./app/views/" . $view . ".php");
+        }
 
     } // END >> Fun::view()
 
@@ -125,17 +129,7 @@ class Controller
         }
 
         // exibe
-        $dados = json_encode($dados);
-
-        // Verifica se converteu
-        if($dados != false)
-        {
-            echo $dados;
-        }
-        else
-        {
-            echo json_last_error_msg();
-        }
+        echo json_encode($dados);
 
         // Mata o processamento
         exit;
@@ -156,23 +150,24 @@ class Controller
         // Monta o array padrão
         $dados = [
             "seo" => [
-                "title" => SITE_NOME . " Socks | Conforto e versatilidade aos seus pés",
-                "description" => "Meônia Socks possui as meias mais confortaveis e versateis, produzida para agradar até os mais exigentes.",
-                "keywords" => "meônia, socks, meias, conforto, confortavel, birigui, fábrica, loja da fábrica, versatil",
+                "title" => SITE_NOME,
+                "description" => "DESCRIÇÃO",
+                "keywords" => "PALAVRAS CHAVE",
                 "distribution" => "global",
                 "revisit-after" => "2 Days",
-                "robots" => "ALL",
+                "robots" => "INDEX,FOLLOW",
+                "googlebot" => "",
                 "language" => "pt-br"
             ],
             "smo" => [
                 "url" => BASE_URL,
-                "title" =>  SITE_NOME . " | Nada é básico com Meônia Socks",
+                "title" => "TITULO",
                 "site_name" => SITE_NOME,
-                "description" => "Meônia Socks possui as meias mais confortaveis e versateis, produzida para agradar até os mais exigentes.",
-                "image" => BASE_URL . 'assets/custom/img/smo.jpg',
+                "description" => "DESCRIÇÃO",
+                "image" => BASE_STORAGE.'assets/img/thumb-face.png',
                 "image_type" => "image/png",
-                "image_width" => "960",
-                "image_height" => "960"
+                "image_width" => "800",
+                "image_height" => "800"
             ]
         ];
 
