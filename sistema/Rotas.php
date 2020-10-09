@@ -121,20 +121,26 @@ class Rotas
         // Pega o achado
         $encontrado = $this->rotas[$tipo];
 
-        foreach ($encontrado as $rota => $valor)
-        {
-            if($url == "" && $rota == "")
-            {
-                return $this->exibeMetodo($valor, []);
-            }
-            else
-            {
-                if(@preg_match($rota, $url, $parametros))
-                {
-                    // Parametros
-                    array_shift($parametros);
 
-                    return $this->exibeMetodo($valor, $parametros);
+        // Verifica se existe algo
+        if(!empty($encontrado))
+        {
+            // Percorre os dados encontrados
+            foreach ($encontrado as $rota => $valor)
+            {
+                if($url == "" && $rota == "")
+                {
+                    return $this->exibeMetodo($valor, []);
+                }
+                else
+                {
+                    if(@preg_match($rota, $url, $parametros))
+                    {
+                        // Parametros
+                        array_shift($parametros);
+
+                        return $this->exibeMetodo($valor, $parametros);
+                    }
                 }
             }
         }
