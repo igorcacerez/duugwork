@@ -167,7 +167,59 @@ class Rotas
     }
 
 
+    public function autoload(array $pastas, array $arquivosArray = null)
+    {
+        // Variaveis
+        $novasPastas = null;
 
+        // Percorre as pastas
+        foreach ($pastas as $pasta)
+        {
+            // Abre a pasta de rotas
+            $dir = dir($pasta);
+
+            // Percorre o diretorio
+            while($arquivo = $dir->read())
+            {
+                // Verifica se não é o voltar
+                if($arquivo != "." && $arquivo != "..")
+                {
+                    // Salva a junção do caminho com o arquivo
+                    $aux = $pasta . $arquivo;
+
+                    // Verifica se é um diretorio
+                    if(is_dir($aux))
+                    {
+                        // Salva no novo array
+                        $novasPastas[] = $aux . "/";
+                    }
+                    else
+                    {
+                        // Verifica se é um arquivo
+                        if(is_file($aux))
+                        {
+                            // Inclui o arquivo
+                            $arquivosArray[] = $aux;
+                        }
+                    }
+                }
+            }
+
+            // Fecha o arquivo
+            $dir->close();
+        }
+
+        // Verifica se possui novos diretórios
+        if(!empty($novasPastas))
+        {
+            // Rechama a função
+            return $this->autoload($novasPastas, $arquivosArray);
+        }
+
+        // Retorno a array de arquivos
+        return $arquivosArray;
+
+    } // End >> fun::autoload()
 
 
 

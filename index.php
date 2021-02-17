@@ -24,7 +24,20 @@ if(is_file("./vendor/autoload.php") == true)
     require("app/config/config.php");
     require("app/config/autoload.php");
     require("app/config/constantes.php");
-    require("app/config/rotas.php");
+
+    // Inclui os arquivos de rota
+    $arquivos = $Rotas->autoload(["./app/config/rotas/"]);
+
+    // Verifica se possui arquivos
+    if(!empty($arquivos))
+    {
+        // Percorre os arquivos
+        for ($i = 0; $i < count($arquivos); $i++)
+        {
+            // Inclui o arquivo de rotas
+            require($arquivos[$i]);
+        }
+    }
 
     // Execulta a rota
     $Rotas->executar();

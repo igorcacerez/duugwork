@@ -120,8 +120,11 @@ class Database extends Conexao
                     // Pego o ultimo algarismo do item
                     $tipo = substr($item, -1);
 
+                    // Valor like
+                    $valorLike = substr(strtoupper($valor), 0, 5);
+
                     // Verifica se a busca é not null ou is null
-                    if(strtoupper($valor) == "IS NULL" || strtoupper($valor) == "IS NOT NULL")
+                    if(strtoupper($valor) == "IS NULL" || strtoupper($valor) == "IS NOT NULL" || $valorLike == "LIKE'")
                     {
                         // Adiciona a query sem o verificador
                         $whereAux .= "{$item} {$valor}";
