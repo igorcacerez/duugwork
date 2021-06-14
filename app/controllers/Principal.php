@@ -35,15 +35,4 @@ class Principal extends CI_controller
     }
 
 
-    public function aux()
-    {
-        // Instancia o objeto Model
-        $UsuarioModel = new \Model\Usuario();
-
-        // Lista todos os objetos
-        $UsuarioModel
-            ->get("ARRAY DE WEHRE", "ORDEM DE EXIBICAO", "LIMITE", "CAMPOS", "GROUP BY")
-            ->fetch(\PDO::FETCH_OBJ);
-    }
-
 } // END::Class Principal
