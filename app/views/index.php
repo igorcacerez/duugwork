@@ -23,8 +23,8 @@
 
     <div class="container">
         <div class="row text-center">
-            <h1>Hello Word!</h1>
-            <p>Bem-vindo ao framework fodastico das galáxias!!!</p>
+            <h1><?= $ola; ?></h1>
+            <p>Bem-vindo ao DuugWork. <br> Vamos te ajudar a desenvolver o que quiser!</p>
         </div>
     </div>
 
