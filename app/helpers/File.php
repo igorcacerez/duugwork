@@ -10,7 +10,7 @@
  *
  */
 
-namespace Sistema\Helper;
+namespace Helper;
 
 
 class File

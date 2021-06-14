@@ -12,12 +12,11 @@
  * Alem de contar sistema de token de acessos para usuarios logados.
  */
 
-namespace Sistema\Helper;
+namespace Helper;
 
 
 use Model\Token;
 use Model\Usuario;
-use Sistema\Controller;
 
 class Seguranca
 {
@@ -29,7 +28,6 @@ class Seguranca
     // Objetos da Classe
     private $objModelToken = null;
     private $objModelUsuario = null;
-    private $objHelperApi;
 
 
     // Método construtor
@@ -38,7 +36,6 @@ class Seguranca
         // Instancia o model
         $this->objModelToken = new Token();
         $this->objModelUsuario = new Usuario();
-        $this->objController = new Controller();
 
     } // End >> Fun::__construct()
 
@@ -250,7 +247,15 @@ class Seguranca
                     else
                     {
                         // Avisa que o token expirou
-                        $this->objController->api(["mensagem" => "Token informado expirou", "code" => 401]);
+                        header("Content-type: application/json; charset=utf-8");
+                        echo json_encode([
+                            "tipo" => false,
+                            "code" => 401,
+                            "mensagem" => "Token informado expirou"
+                        ]);
+
+                        // Encerra
+                        exit;
                     }
                 }
                 else

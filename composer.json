@@ -2,12 +2,12 @@
     "autoload": {
         "psr-4": {
             "Model\\": "app/models/",
-            "Sistema\\": "sistema/",
             "Controller\\": "app/controllers/",
             "Helper\\": "app/helpers/"
         }
     },
     "require": {
+        "igorcacerez/duugwork-system" : "dev-main",
         "phpmailer/phpmailer": "^6.1"
     }
 }

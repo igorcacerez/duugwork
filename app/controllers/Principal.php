@@ -8,7 +8,7 @@
 
 namespace Controller;
 
-use Sistema\Controller as CI_controller;
+use DuugWork\Controller as CI_controller;
 
 
 class Principal extends CI_controller

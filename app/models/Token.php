@@ -18,7 +18,7 @@
 
 namespace Model;
 
-use Sistema\Database;
+use DuugWork\Database;
 
 
 class Token extends Database

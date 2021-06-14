@@ -18,7 +18,7 @@ if(is_file("./vendor/autoload.php") == true)
     require("vendor/autoload.php");
 
     // Instancia a rota
-    $Rotas = new Sistema\Rotas();
+    $Rotas = new DuugWork\Rotas();
 
     // Requires de configurações do sistema
     require("app/config/config.php");
