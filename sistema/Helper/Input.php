@@ -127,17 +127,51 @@ class Input
         // Verifica se ouve envio de dados via PUT
         if (!strcasecmp($_SERVER['REQUEST_METHOD'], 'PUT'))
         {
-            // Pega os dados json put
-            $decoded_input = json_decode(file_get_contents("php://input"), true);
+            // Recupera o conteudo PUT
+            $put = file_get_contents("php://input");
 
-            // Percorre os dados
-            foreach ($decoded_input as $dec => $value)
+            // Verifica se é json
+            if($this->isJson($put))
             {
-                // Adiciona no array
-                $this->varPut[$dec] = $value;
+                // Pega os dados json put
+                $decoded_input = json_decode($put, true);
+
+                // Percorre os dados
+                foreach ($decoded_input as $dec => $value)
+                {
+                    // Adiciona no array
+                    $this->varPut[$dec] = $value;
+                }
             }
+            else
+            {
+                // Repassa para array
+                parse_str($put, $aux);
+
+                // Adiciona no array
+                $this->varPut = $aux;
+
+            } // Não é json
         }
 
     } // End >> Fun::carregaDados()
+
+
+    /**
+     * Método responsável por verificar se uma string
+     * é um json.
+     * ------------------------------------------------
+     * @author https://qastack.com.br/programming/6041741/fastest-way-to-check-if-a-string-is-json-in-php
+     * ------------------------------------------------
+     * @param $string
+     * @return bool
+     */
+    private function isJson($string)
+    {
+        return ((is_string($string) &&
+            (is_object(json_decode($string)) ||
+                is_array(json_decode($string))))) ? true : false;
+
+    } // End >> fun::isJson()
 
 } // End >> Class::Input()
